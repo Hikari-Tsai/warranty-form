@@ -42,7 +42,7 @@ const CONFIG = {
     { key: 'lineId',    label: 'Line ID', en: 'LINE ID',       type: 'text', required: false, max: 50,  singleLine: true },
     { key: 'brand',     label: '產品廠牌', en: 'Brand',       type: 'select', required: true, options: [
       'AIAIAI', 'AUDEZE', 'Solid State Logic - SSL', 'Universal Audio - UA',
-      'Fosi Audio', 'M-Audio', 'iConnectivity',
+      'Fosi Audio', 'M-Audio', 'iConnectivity', 'Expressive E',
     ] },
     { key: 'model',     label: '產品型號', en: 'Model',       type: 'text', required: true,  max: 100, singleLine: true },
     { key: 'serial',    label: '產品序號 S/N', en: 'Serial number',   type: 'text', required: true,  max: 100, singleLine: true },
