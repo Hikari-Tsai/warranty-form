@@ -92,14 +92,17 @@
     .wordmark:focus-visible { outline: none; box-shadow: var(--ring); }
     .wordmark .mark { width: 30px; height: 30px; flex: none; display: block; }
     .topbar-right { display: flex; align-items: center; gap: 14px; }
-    .lang-btn {
-      height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface);
-      color: var(--ink-2); font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
-      white-space: nowrap; flex: none;
+    /* 語言切換：中 | EN 分段開關，目前語言反白 */
+    .lang-switch {
+      display: inline-flex; padding: 2px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); flex: none;
     }
-    .lang-btn:hover { color: var(--ink); border-color: var(--ink-3); }
-    .lang-btn:focus-visible { outline: none; box-shadow: var(--ring); }
-    .lang-btn svg { width: 15px; height: 15px; }
+    .lang-switch button {
+      height: 26px; min-width: 38px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent;
+      color: var(--ink-3); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .2s, color .2s;
+    }
+    .lang-switch button:hover { color: var(--ink); }
+    .lang-switch button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); cursor: default; }
+    .lang-switch button:focus-visible { outline: none; box-shadow: var(--ring); }
 
     /* ---------- Brand banner ---------- */
     /* Banner：原圖直接顯示，只縮放尺寸；底色固定白色，淺色/深色模式都一樣 */
@@ -437,8 +440,7 @@
       .topbar-right { gap: 10px; flex: none; }
       .wordmark { min-width: 0; }
       .wordmark > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .lang-btn { padding: 0 10px; }
-      .lang-btn svg { display: none; }
+      .lang-switch button { min-width: 34px; padding: 0 8px; }
       html[lang="en"] .wordmark .full { display: none; }
       .options { grid-template-columns: 1fr 1fr; gap: 8px; }
       .options.wide { grid-template-columns: 1fr; }
@@ -446,6 +448,8 @@
       .previews { gap: 8px; }
       .footer { padding: 0 16px 32px; }
     }
+    /* 窄螢幕：進度文字讓位給品牌名稱（下方仍有進度條） */
+    @media (max-width: 420px) { .progress-label { display: none; } }
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation-duration: 1.5s !important; } }
   </style>
 </head>
@@ -459,10 +463,10 @@
       </a>
       <div class="topbar-right">
         <span class="progress-label" id="progress-label">已完成 0%</span>
-        <button type="button" class="lang-btn" id="lang-btn" lang="en" aria-label="Switch to English">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
-          <span id="lang-btn-text">EN</span>
-        </button>
+        <div class="lang-switch" role="group" aria-label="語言 / Language">
+          <button type="button" data-lang="zh" lang="zh-Hant-TW" aria-pressed="true">中</button>
+          <button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button>
+        </div>
       </div>
     </div>
     <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
@@ -750,8 +754,6 @@
       zh: {
         'doc.title': '產品保固登錄｜群彩文創 × 揚聲堡音樂',
         'doc.desc': '群彩文創 / 揚聲堡音樂 代理產品線上保固登錄',
-        'lang.switch': 'Switch to English',
-        'lang.btn': 'EN',
         'progress': '已完成 {pct}%',
         'err.default': '此欄位格式不正確',
         'turnstile.loadFail': '人機驗證載入失敗，請重新整理頁面後再試。',
@@ -813,8 +815,6 @@
       en: {
         'doc.title': 'Product Warranty Registration | Ensemble Music Center',
         'doc.desc': 'Online warranty registration for products distributed by Cyuncai / Ensemble Music Center',
-        'lang.switch': '切換為中文',
-        'lang.btn': '中文',
         'home.aria': 'Back to home',
         'banner.aria': 'Cyuncai / Ensemble Music Center',
         'brand.cyuncai': 'Cyuncai',
@@ -974,10 +974,9 @@
           el.setAttribute(attr, t(key));
         });
       });
-      const btn = document.getElementById('lang-btn');
-      btn.lang = lang === 'en' ? 'zh-Hant-TW' : 'en';
-      btn.setAttribute('aria-label', t('lang.switch'));
-      document.getElementById('lang-btn-text').textContent = t('lang.btn');
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((b) => {
+        b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+      });
       document.querySelectorAll('.year').forEach((el) => { el.textContent = new Date().getFullYear(); });
     }
 
@@ -992,7 +991,9 @@
       langListeners.forEach((fn) => fn());
     }
     const langListeners = [];
-    document.getElementById('lang-btn').addEventListener('click', () => setLang(lang === 'zh' ? 'en' : 'zh'));
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((b) => {
+      b.addEventListener('click', () => setLang(b.dataset.lang));
+    });
     applyLang();
 
     const $ = (sel) => document.querySelector(sel);
