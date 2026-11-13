@@ -149,6 +149,11 @@
     .steps li.done .dot .n { display: none; }
     .steps li:not(.done) .dot svg { display: none; }
     .steps li.done a { color: var(--ink); }
+    /* 登錄完成：步驟與進度條轉綠 */
+    body.is-complete .steps li .dot { background: var(--ok); border-color: var(--ok); color: #fff; }
+    body.is-complete .steps::before { background: var(--ok); }
+    body.is-complete .progress-bar { background: var(--ok); }
+    body.is-complete .progress-label { color: var(--ok); font-weight: 700; }
     .help {
       margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-2);
     }
@@ -1088,8 +1093,9 @@
       resetForm();
       // 成功畫面上進度維持 100%
       $('#progress-bar').style.width = '100%';
-      $('#progress-label').textContent = '登錄完成';
+      $('#progress-label').textContent = '已完成 100%';
       document.querySelectorAll('#steps li').forEach((li) => li.classList.add('done'));
+      document.body.classList.add('is-complete');
       form.hidden = true;
       doneView.hidden = false;
       doneView.focus({ preventScroll: true });
@@ -1099,6 +1105,7 @@
     $('#again-btn').addEventListener('click', () => {
       doneView.hidden = true;
       form.hidden = false;
+      document.body.classList.remove('is-complete');
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
       $('#f-name').focus({ preventScroll: true });
