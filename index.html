@@ -178,6 +178,7 @@
     .grid { display: grid; gap: 20px 20px; grid-template-columns: 1fr; }
     @media (min-width: 640px) { .grid.two { grid-template-columns: 1fr 1fr; } }
     .grid + .field, .field + .field, .grid + .grid, .field + .grid { margin-top: 24px; }
+    .grid > .field { margin-top: 0; }  /* 格線內的欄位由 gap 控制間距，左右才會對齊 */
 
     .field { border: 0; margin: 0; padding: 0; min-width: 0; }
     .label { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 500; margin-bottom: 8px; padding: 0; }
