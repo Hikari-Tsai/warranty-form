@@ -23,6 +23,7 @@ const CONFIG = {
   DEFAULT_SHEET_NAME: 'Submissions',
   SITEVERIFY_URL: 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
   SUCCESS_MESSAGE: '保固登錄完成，感謝您的填寫！',
+  SUCCESS_MESSAGE_EN: 'Your warranty registration is complete. Thank you!',
 
   /**
    * 表單欄位（順序 = 試算表欄位順序）。前端 index.html 的 name 必須與 key 一致。
@@ -33,32 +34,38 @@ const CONFIG = {
    *   consent  必須為 true；寫入「已同意」
    */
   FIELDS: [
-    { key: 'name',      label: '姓名',          type: 'text', required: true,  max: 50,  singleLine: true },
-    { key: 'phone',     label: '聯繫電話 / 手機', type: 'text', required: true,  max: 20,  singleLine: true,
+    { key: 'name',      label: '姓名', en: 'Name',          type: 'text', required: true,  max: 50,  singleLine: true },
+    { key: 'phone',     label: '聯繫電話 / 手機', en: 'Phone', type: 'text', required: true,  max: 20,  singleLine: true,
       pattern: /^[0-9+\-()#\s]{6,20}$/ },
-    { key: 'email',     label: 'Email',         type: 'text', required: true,  max: 254, singleLine: true,
+    { key: 'email',     label: 'Email', en: 'Email',         type: 'text', required: true,  max: 254, singleLine: true,
       pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-    { key: 'lineId',    label: 'Line ID',       type: 'text', required: false, max: 50,  singleLine: true },
-    { key: 'brand',     label: '產品廠牌',       type: 'select', required: true, options: [
+    { key: 'lineId',    label: 'Line ID', en: 'LINE ID',       type: 'text', required: false, max: 50,  singleLine: true },
+    { key: 'brand',     label: '產品廠牌', en: 'Brand',       type: 'select', required: true, options: [
       'AIAIAI', 'AUDEZE', 'Solid State Logic - SSL', 'Universal Audio - UA',
       'Fosi Audio', 'M-Audio', 'iConnectivity',
     ] },
-    { key: 'model',     label: '產品型號',       type: 'text', required: true,  max: 100, singleLine: true },
-    { key: 'serial',    label: '產品序號 S/N',   type: 'text', required: true,  max: 100, singleLine: true },
-    { key: 'purchaseDate', label: '購買日期',    type: 'date', required: true },
-    { key: 'channel',   label: '購買通路',       type: 'select', required: true, options: [
+    { key: 'model',     label: '產品型號', en: 'Model',       type: 'text', required: true,  max: 100, singleLine: true },
+    { key: 'serial',    label: '產品序號 S/N', en: 'Serial number',   type: 'text', required: true,  max: 100, singleLine: true },
+    { key: 'purchaseDate', label: '購買日期', en: 'Purchase date',    type: 'date', required: true },
+    { key: 'channel',   label: '購買通路', en: 'Purchase channel',       type: 'select', required: true, options: [
       '揚聲堡音樂實體門市', '揚聲堡音樂線上商城', '授權電商平台 - MoMo',
       '授權電商平台 - PCHome', '授權經銷商',
     ] },
-    { key: 'store',     label: '購買店家 / 平台', type: 'text', required: true,  max: 100, singleLine: true },
-    { key: 'privacyConsent', label: '個資告知同意', type: 'consent', required: true },
-    { key: 'marketing', label: '行銷通知',       type: 'select', required: false, options: ['同意', '不同意'] },
+    { key: 'store',     label: '購買店家 / 平台', en: 'Store / platform', type: 'text', required: true,  max: 100, singleLine: true },
+    { key: 'privacyConsent', label: '個資告知同意', en: 'Privacy consent', type: 'consent', required: true },
+    { key: 'marketing', label: '行銷通知', en: 'Marketing updates',       type: 'select', required: false, options: ['同意', '不同意'] },
   ],
   PHOTO_COLUMN_LABEL: '購買憑證連結',
   EARLIEST_PURCHASE_DATE: '2000-01-01',
 };
 
 /** 給使用者看的錯誤；其他錯誤一律回傳通用訊息，細節只寫進 log。 */
+// 回應語系：前端送 lang: 'en' 時回英文訊息，其餘一律中文
+let LANG_ = 'zh';
+function T_(zh, en) { return LANG_ === 'en' ? en : zh; }
+function label_(rule) { return LANG_ === 'en' ? (rule.en || rule.label) : rule.label; }
+function successMessage_() { return T_(CONFIG.SUCCESS_MESSAGE, CONFIG.SUCCESS_MESSAGE_EN); }
+
 class UserError extends Error {
   constructor(message) {
     super(message);
@@ -71,6 +78,7 @@ class UserError extends Error {
 // ---------------------------------------------------------------------------
 
 function doPost(e) {
+  LANG_ = 'zh';
   try {
     return json_(handleSubmission_(e));
   } catch (err) {
@@ -78,7 +86,7 @@ function doPost(e) {
       return json_({ ok: false, message: err.message });
     }
     console.error(err && err.stack ? err.stack : err);
-    return json_({ ok: false, message: '伺服器發生錯誤，請稍後再試。' });
+    return json_({ ok: false, message: T_('伺服器發生錯誤，請稍後再試。', 'Server error. Please try again later.') });
   }
 }
 
@@ -89,23 +97,24 @@ function doGet() {
 
 function handleSubmission_(e) {
   const raw = e && e.postData && e.postData.contents;
-  if (!raw) throw new UserError('沒有收到資料。');
-  if (raw.length > CONFIG.MAX_BODY_CHARS) throw new UserError('資料量過大，請減少或縮小照片。');
+  if (!raw) throw new UserError(T_('沒有收到資料。', 'No data received.'));
+  if (raw.length > CONFIG.MAX_BODY_CHARS) throw new UserError(T_('資料量過大，請減少或縮小照片。', 'The submission is too large. Please use fewer or smaller photos.'));
 
   let body;
   try {
     body = JSON.parse(raw);
   } catch (_) {
-    throw new UserError('資料格式錯誤。');
+    throw new UserError(T_('資料格式錯誤。', 'Invalid data format.'));
   }
   if (!body || typeof body !== 'object' || Array.isArray(body)) {
-    throw new UserError('資料格式錯誤。');
+    throw new UserError(T_('資料格式錯誤。', 'Invalid data format.'));
   }
+  LANG_ = body.lang === 'en' ? 'en' : 'zh';
 
   // Honeypot：真人看不到這個欄位。被填寫就假裝成功，但什麼都不寫入，避免機器人調整策略。
   if (body.website != null && String(body.website).trim() !== '') {
     console.warn('Honeypot triggered; submission dropped.');
-    return { ok: true, message: CONFIG.SUCCESS_MESSAGE };
+    return { ok: true, message: successMessage_() };
   }
 
   // 先做便宜的本地驗證，再打 Turnstile（網路呼叫），最後才碰 Sheet/Drive
@@ -126,21 +135,21 @@ function handleSubmission_(e) {
 function validateSubmissionId_(id) {
   // 前端用 crypto.randomUUID()；不可用 - 開頭，順便確保不會觸發公式注入前綴
   if (typeof id !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9_-]{7,63}$/.test(id)) {
-    throw new UserError('送出編號無效，請重新整理頁面後再試。');
+    throw new UserError(T_('送出編號無效，請重新整理頁面後再試。', 'Invalid submission ID. Please reload the page and try again.'));
   }
   return id;
 }
 
 function validateFields_(input) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) {
-    throw new UserError('欄位資料錯誤。');
+    throw new UserError(T_('欄位資料錯誤。', 'Invalid form data.'));
   }
   const out = {};
   CONFIG.FIELDS.forEach(function (rule) {
     const v = input[rule.key];
     switch (rule.type) {
       case 'consent':
-        if (rule.required && v !== true) throw new UserError('請閱讀並勾選同意「個人資料蒐集與使用告知事項」。');
+        if (rule.required && v !== true) throw new UserError(T_('請閱讀並勾選同意「個人資料蒐集與使用告知事項」。', 'Please read and accept the privacy notice.'));
         out[rule.key] = v === true ? '已同意' : '';
         break;
       case 'date':
@@ -148,14 +157,14 @@ function validateFields_(input) {
         break;
       default: {
         const s = cleanString_(v, rule);
-        if (rule.required && !s) throw new UserError('請填寫' + rule.label + '。');
+        if (rule.required && !s) throw new UserError(T_('請填寫' + rule.label + '。', 'Please fill in ' + label_(rule) + '.'));
         if (s && rule.type === 'select' && rule.options.indexOf(s) === -1) {
-          throw new UserError(rule.label + ' 選項無效。');
+          throw new UserError(T_(rule.label + ' 選項無效。', label_(rule) + ': invalid option.'));
         }
         if (s && rule.type === 'text') {
-          if (Array.from(s).length > rule.max) throw new UserError(rule.label + ' 不可超過 ' + rule.max + ' 字。');
-          if (rule.singleLine && /[\n\t]/.test(s)) throw new UserError(rule.label + ' 不可換行。');
-          if (rule.pattern && !rule.pattern.test(s)) throw new UserError(rule.label + ' 格式不正確。');
+          if (Array.from(s).length > rule.max) throw new UserError(T_(rule.label + ' 不可超過 ' + rule.max + ' 字。', label_(rule) + ' must be at most ' + rule.max + ' characters.'));
+          if (rule.singleLine && /[\n\t]/.test(s)) throw new UserError(T_(rule.label + ' 不可換行。', label_(rule) + ' must be a single line.'));
+          if (rule.pattern && !rule.pattern.test(s)) throw new UserError(T_(rule.label + ' 格式不正確。', label_(rule) + ' is not valid.'));
         }
         out[rule.key] = s;
       }
@@ -166,8 +175,8 @@ function validateFields_(input) {
 
 function cleanString_(v, rule) {
   if (v == null) return '';
-  if (typeof v !== 'string') throw new UserError(rule.label + ' 格式錯誤。');
-  if (v.length > 10000) throw new UserError(rule.label + ' 太長。');
+  if (typeof v !== 'string') throw new UserError(T_(rule.label + ' 格式錯誤。', label_(rule) + ' has an invalid format.'));
+  if (v.length > 10000) throw new UserError(T_(rule.label + ' 太長。', label_(rule) + ' is too long.'));
   return v.replace(/\r\n?/g, '\n')
     .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '') // 移除控制字元（保留 \t \n）
     .trim();
@@ -177,27 +186,27 @@ function cleanString_(v, rule) {
 function validateDate_(v, rule) {
   const s = cleanString_(v, rule);
   if (!s) {
-    if (rule.required) throw new UserError('請填寫' + rule.label + '。');
+    if (rule.required) throw new UserError(T_('請填寫' + rule.label + '。', 'Please fill in ' + label_(rule) + '.'));
     return '';
   }
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
-  if (!m) throw new UserError(rule.label + ' 格式不正確。');
+  if (!m) throw new UserError(T_(rule.label + ' 格式不正確。', label_(rule) + ' is not valid.'));
   const y = +m[1], mo = +m[2], d = +m[3];
   const date = new Date(y, mo - 1, d);
   if (date.getFullYear() !== y || date.getMonth() !== mo - 1 || date.getDate() !== d) {
-    throw new UserError(rule.label + ' 不是有效的日期。');
+    throw new UserError(T_(rule.label + ' 不是有效的日期。', label_(rule) + ' is not a valid date.'));
   }
   // 時區差異留一天緩衝
   const tomorrow = Utilities.formatDate(new Date(Date.now() + 86400000), Session.getScriptTimeZone(), 'yyyy-MM-dd');
-  if (s > tomorrow) throw new UserError(rule.label + ' 不可晚於今天。');
-  if (s < CONFIG.EARLIEST_PURCHASE_DATE) throw new UserError(rule.label + ' 不正確。');
+  if (s > tomorrow) throw new UserError(T_(rule.label + ' 不可晚於今天。', label_(rule) + ' cannot be in the future.'));
+  if (s < CONFIG.EARLIEST_PURCHASE_DATE) throw new UserError(T_(rule.label + ' 不正確。', label_(rule) + ' is not valid.'));
   return date;
 }
 
 function validatePhotos_(input) {
   if (input == null) return [];
-  if (!Array.isArray(input)) throw new UserError('照片資料錯誤。');
-  if (input.length > CONFIG.MAX_PHOTOS) throw new UserError('照片最多 ' + CONFIG.MAX_PHOTOS + ' 張。');
+  if (!Array.isArray(input)) throw new UserError(T_('照片資料錯誤。', 'Invalid photo data.'));
+  if (input.length > CONFIG.MAX_PHOTOS) throw new UserError(T_('照片最多 ' + CONFIG.MAX_PHOTOS + ' 張。', 'Up to ' + CONFIG.MAX_PHOTOS + ' photos.'));
 
   const maxB64 = Math.ceil(CONFIG.MAX_TOTAL_BYTES / 3) * 4;
   let total = 0;
@@ -205,24 +214,24 @@ function validatePhotos_(input) {
   return input.map(function (p, i) {
     const n = i + 1;
     const data = p && typeof p.data === 'string' ? p.data : '';
-    if (!data) throw new UserError('第 ' + n + ' 張照片資料錯誤。');
-    if (data.length > maxB64) throw new UserError('照片總大小超過 5MB。');
-    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(data)) throw new UserError('第 ' + n + ' 張照片編碼錯誤。');
+    if (!data) throw new UserError(T_('第 ' + n + ' 張照片資料錯誤。', 'Photo ' + n + ': invalid data.'));
+    if (data.length > maxB64) throw new UserError(T_('照片總大小超過 5MB。', 'Photos exceed 5MB in total.'));
+    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(data)) throw new UserError(T_('第 ' + n + ' 張照片編碼錯誤。', 'Photo ' + n + ': invalid encoding.'));
 
     let bytes;
     try {
       bytes = Utilities.base64Decode(data);
     } catch (_) {
-      throw new UserError('第 ' + n + ' 張照片編碼錯誤。');
+      throw new UserError(T_('第 ' + n + ' 張照片編碼錯誤。', 'Photo ' + n + ': invalid encoding.'));
     }
 
     total += bytes.length;
-    if (total > CONFIG.MAX_TOTAL_BYTES) throw new UserError('照片總大小超過 5MB。');
-    if (bytes.length < CONFIG.MIN_PHOTO_BYTES) throw new UserError('第 ' + n + ' 張照片檔案不完整。');
+    if (total > CONFIG.MAX_TOTAL_BYTES) throw new UserError(T_('照片總大小超過 5MB。', 'Photos exceed 5MB in total.'));
+    if (bytes.length < CONFIG.MIN_PHOTO_BYTES) throw new UserError(T_('第 ' + n + ' 張照片檔案不完整。', 'Photo ' + n + ': file is incomplete.'));
 
     // 不相信前端宣告的 type，一律看檔頭 magic bytes
     const kind = detectImageType_(bytes);
-    if (!kind) throw new UserError('第 ' + n + ' 張照片不是 JPEG 或 PNG。');
+    if (!kind) throw new UserError(T_('第 ' + n + ' 張照片不是 JPEG 或 PNG。', 'Photo ' + n + ' is not a JPEG or PNG.'));
     return { bytes: bytes, kind: kind };
   });
 }
@@ -245,7 +254,7 @@ function verifyTurnstile_(token, props) {
   if (!props.turnstileSecret) return;
 
   if (typeof token !== 'string' || !token || token.length > CONFIG.MAX_TOKEN_LENGTH) {
-    throw new UserError('請先完成人機驗證。');
+    throw new UserError(T_('請先完成人機驗證。', 'Please complete the verification first.'));
   }
 
   const res = UrlFetchApp.fetch(CONFIG.SITEVERIFY_URL, {
@@ -256,7 +265,7 @@ function verifyTurnstile_(token, props) {
 
   if (res.getResponseCode() !== 200) {
     console.error('siteverify HTTP ' + res.getResponseCode() + ': ' + res.getContentText());
-    throw new UserError('人機驗證服務暫時無法使用，請稍後再試。');
+    throw new UserError(T_('人機驗證服務暫時無法使用，請稍後再試。', 'Verification service is unavailable. Please try again later.'));
   }
 
   let result;
@@ -264,18 +273,18 @@ function verifyTurnstile_(token, props) {
     result = JSON.parse(res.getContentText());
   } catch (_) {
     console.error('siteverify non-JSON: ' + res.getContentText());
-    throw new UserError('人機驗證服務暫時無法使用，請稍後再試。');
+    throw new UserError(T_('人機驗證服務暫時無法使用，請稍後再試。', 'Verification service is unavailable. Please try again later.'));
   }
 
   if (result.success !== true) {
     console.warn('Turnstile failed: ' + JSON.stringify(result['error-codes'] || []));
-    throw new UserError('人機驗證失敗或已過期，請重新驗證後再送出。');
+    throw new UserError(T_('人機驗證失敗或已過期，請重新驗證後再送出。', 'Verification failed or expired. Please verify again and resubmit.'));
   }
 
   const hostname = String(result.hostname || '').toLowerCase();
   if (props.allowedHostnames.indexOf(hostname) === -1) {
     console.warn('Turnstile hostname not allowed: ' + hostname);
-    throw new UserError('人機驗證來源不符。');
+    throw new UserError(T_('人機驗證來源不符。', 'Verification origin mismatch.'));
   }
 }
 
@@ -286,7 +295,7 @@ function verifyTurnstile_(token, props) {
 function saveSubmission_(submissionId, fields, photos, props) {
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(CONFIG.LOCK_WAIT_MS)) {
-    throw new UserError('系統忙碌中，請稍後再試。');
+    throw new UserError(T_('系統忙碌中，請稍後再試。', 'The system is busy. Please try again later.'));
   }
 
   const createdFiles = [];
@@ -295,7 +304,7 @@ function saveSubmission_(submissionId, fields, photos, props) {
 
     // 冪等：同一個 submissionId 已存在就直接回成功，不再寫入
     if (submissionExists_(sheet, submissionId)) {
-      return { ok: true, duplicate: true, message: '這筆資料先前已送出成功，不會重複記錄。' };
+      return { ok: true, duplicate: true, message: T_('這筆資料先前已送出成功，不會重複記錄。', 'This registration was already submitted and will not be recorded twice.') };
     }
 
     // 照片沿用資料夾權限（保持私人），不呼叫 setSharing
@@ -310,7 +319,7 @@ function saveSubmission_(submissionId, fields, photos, props) {
     sheet.appendRow(buildRow_(submissionId, fields, links));
     SpreadsheetApp.flush();
 
-    return { ok: true, message: CONFIG.SUCCESS_MESSAGE };
+    return { ok: true, message: successMessage_() };
   } catch (err) {
     // 寫入 Sheet 失敗時，把這次已建立的照片丟進垃圾桶，避免孤兒檔案
     createdFiles.forEach(function (f) {

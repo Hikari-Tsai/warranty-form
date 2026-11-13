@@ -16,8 +16,10 @@ Google Apps Script Web App (Code.gs → doPost)
 
 | 檔案 | 用途 |
 |---|---|
-| `index.html` | 前端表單（單一檔案，含樣式、Logo 與程式；自動支援深色模式） |
+| `index.html` | 前端表單（單一檔案，含樣式與程式；中文 / English 切換；自動支援深色模式） |
+| `assets/cyuncai-logo.png` | 左上角群彩文創 Logo（點擊回首頁） |
 | `Code.gs` | Apps Script 後端 |
+| `CNAME` | GitHub Pages 自訂網域（`warranty.cyuncai.com`），請勿刪除 |
 
 ---
 
@@ -166,6 +168,17 @@ python3 -m http.server 8000
 - 掃描值開頭的 `S/N:`、`SERIAL NO.`、`MODEL:`、`P/N` 等字樣會自動去掉；填入後會提示使用者核對。
 - 要讓其他欄位也能掃描：在 input 旁加 `<button class="scan-btn" data-scan-target="欄位id">`，並在 `TARGETS` 加一筆設定。
 - 相機只能在 **HTTPS**（或 localhost）下使用；GitHub Pages / Cloudflare Pages 都是 HTTPS。
+
+### 中文 / English
+
+- 右上角按鈕切換語系，選擇會記在瀏覽器；第一次進站依瀏覽器語言決定（中文系統 → 中文，其他 → English）。
+- 也可以直接用網址指定：`https://warranty.cyuncai.com/?lang=en`。
+- 前端送出時會帶 `lang`，後端（`Code.gs`）依此回傳中文或英文訊息。**改過 `Code.gs` 後要重新部署（管理部署作業 → 新版本）才會生效。**
+- 寫入試算表的選項值（廠牌、通路、行銷通知）不分語系，一律是中文原值，方便統計。
+- 新增或修改文字：
+  - 頁面上的固定文字：HTML 元素加 `data-i18n="key"`（內容）或 `data-i18n-attr="placeholder=key"`（屬性），中文寫在 HTML，英文寫在 `I18N.en`。
+  - 程式產生的文字：用 `t('key', { 變數 })`，中英文都寫在 `I18N`。
+  - 後端錯誤訊息：用 `T_('中文', 'English')`；欄位英文名稱在 `CONFIG.FIELDS` 的 `en`。
 
 ### HEIC
 

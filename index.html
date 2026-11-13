@@ -88,7 +88,18 @@
       display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
     .wordmark { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .02em; font-size: 15px; }
-    .wordmark .mark { width: 20px; height: 26px; color: var(--brand); flex: none; }
+    .wordmark { color: var(--ink); text-decoration: none; border-radius: 8px; }
+    .wordmark:focus-visible { outline: none; box-shadow: var(--ring); }
+    .wordmark .mark { width: 30px; height: 30px; flex: none; display: block; }
+    .topbar-right { display: flex; align-items: center; gap: 14px; }
+    .lang-btn {
+      height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface);
+      color: var(--ink-2); font-size: 13px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+      white-space: nowrap; flex: none;
+    }
+    .lang-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+    .lang-btn:focus-visible { outline: none; box-shadow: var(--ring); }
+    .lang-btn svg { width: 15px; height: 15px; }
 
     /* ---------- Brand banner ---------- */
     .brand-banner {
@@ -427,6 +438,13 @@
       .topbar-inner { padding: 12px 16px; }
       .section { padding: 24px 18px; border-radius: 12px; }
       .wordmark { font-size: 14px; gap: 8px; }
+      .wordmark .mark { width: 26px; height: 26px; }
+      .topbar-right { gap: 10px; flex: none; }
+      .wordmark { min-width: 0; }
+      .wordmark > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .lang-btn { padding: 0 10px; }
+      .lang-btn svg { display: none; }
+      html[lang="en"] .wordmark .full { display: none; }
       .options { grid-template-columns: 1fr 1fr; gap: 8px; }
       .options.wide { grid-template-columns: 1fr; }
       .option { padding: 10px 12px; gap: 10px; font-size: 14px; }
@@ -448,17 +466,23 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="wordmark">
-        <svg class="mark" aria-hidden="true"><use href="#emc-mark"/></svg>
-        <span><span class="full">群彩文創<span class="x">×</span></span>揚聲堡音樂</span>
+      <a class="wordmark" href="./" data-i18n-attr="aria-label=home.aria" aria-label="回到首頁">
+        <img class="mark" src="assets/cyuncai-logo.png" alt="" width="30" height="30">
+        <span><span class="full"><span data-i18n="brand.cyuncai">群彩文創</span><span class="x">×</span></span><span data-i18n="brand.emc">揚聲堡音樂</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="progress-label" id="progress-label">已完成 0%</span>
+        <button type="button" class="lang-btn" id="lang-btn" lang="en" aria-label="Switch to English">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>
+          <span id="lang-btn-text">EN</span>
+        </button>
       </div>
-      <span class="progress-label" id="progress-label">已完成 0%</span>
     </div>
     <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
   </header>
 
   <main class="page">
-    <div class="brand-banner" role="img" aria-label="Ensemble Music Center 揚聲堡音樂">
+    <div class="brand-banner" role="img" aria-label="Ensemble Music Center 揚聲堡音樂" data-i18n-attr="aria-label=banner.aria">
       <div class="logo" aria-hidden="true">
         <svg viewBox="0 0 40 52"><use href="#emc-mark"/></svg>
         <div class="logo-text"><span>Ensemble</span><span>Music Center</span></div>
@@ -467,25 +491,25 @@
 
     <section class="hero">
       <span class="eyebrow">Product Warranty</span>
-      <h1>產品保固登錄</h1>
-      <p>感謝您選購由群彩文創 / 揚聲堡音樂代理的產品。請於<strong>購買後 7 日內</strong>完成登錄，以確保您的保固與售後服務權益。</p>
+      <h1 data-i18n="hero.title">產品保固登錄</h1>
+      <p data-i18n="hero.lead">感謝您選購由群彩文創 / 揚聲堡音樂代理的產品。請於<strong>購買後 7 日內</strong>完成登錄，以確保您的保固與售後服務權益。</p>
       <div class="chips">
-        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>約 2 分鐘</span>
-        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>建議準備發票或收據</span>
-        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg>資料加密傳輸</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="chip.time">約 2 分鐘</span></span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span data-i18n="chip.receipt">建議準備發票或收據</span></span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg><span data-i18n="chip.secure">資料加密傳輸</span></span>
       </div>
     </section>
 
     <div class="layout">
-      <aside class="aside" aria-label="填寫進度">
+      <aside class="aside" aria-label="填寫進度" data-i18n-attr="aria-label=steps.aria">
         <ol class="steps" id="steps">
-          <li data-step="contact"><a href="#sec-contact"><span class="dot"><span class="n">1</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span>聯絡資訊</a></li>
-          <li data-step="product"><a href="#sec-product"><span class="dot"><span class="n">2</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span>產品資訊</a></li>
-          <li data-step="purchase"><a href="#sec-purchase"><span class="dot"><span class="n">3</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span>購買資訊</a></li>
-          <li data-step="confirm"><a href="#sec-confirm"><span class="dot"><span class="n">4</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span>確認與送出</a></li>
+          <li data-step="contact"><a href="#sec-contact"><span class="dot"><span class="n">1</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span><span data-i18n="step.contact">聯絡資訊</span></a></li>
+          <li data-step="product"><a href="#sec-product"><span class="dot"><span class="n">2</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span><span data-i18n="step.product">產品資訊</span></a></li>
+          <li data-step="purchase"><a href="#sec-purchase"><span class="dot"><span class="n">3</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span><span data-i18n="step.purchase">購買資訊</span></a></li>
+          <li data-step="confirm"><a href="#sec-confirm"><span class="dot"><span class="n">4</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10"/></svg></span><span data-i18n="step.confirm">確認與送出</span></a></li>
         </ol>
         <div class="help">
-          <b>需要協助？</b>
+          <b data-i18n="help.title">需要協助？</b>
           <a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a>
         </div>
       </aside>
@@ -502,27 +526,27 @@
           <section class="section" id="sec-contact" data-step="contact">
             <div class="section-head">
               <span class="section-num">01</span>
-              <div><h2>聯絡資訊</h2><p>保固與維修服務時，我們會用這些資料與您聯繫。</p></div>
+              <div><h2 data-i18n="sec.contact.title">聯絡資訊</h2><p data-i18n="sec.contact.desc">保固與維修服務時，我們會用這些資料與您聯繫。</p></div>
             </div>
             <div class="grid two">
-              <div class="field" data-error="請填寫姓名">
-                <label class="label" for="f-name"><span>姓名<span class="req">*</span></span></label>
+              <div class="field" data-error="請填寫姓名" data-i18n-err="err.name">
+                <label class="label" for="f-name"><span><span data-i18n="label.name">姓名</span><span class="req">*</span></span></label>
                 <input class="input" type="text" id="f-name" name="name" required maxlength="50" autocomplete="name">
                 <p class="err-msg"></p>
               </div>
-              <div class="field" data-error="請填寫有效的電話號碼">
-                <label class="label" for="f-phone"><span>聯絡電話<span class="req">*</span></span></label>
+              <div class="field" data-error="請填寫有效的電話號碼" data-i18n-err="err.phone">
+                <label class="label" for="f-phone"><span><span data-i18n="label.phone">聯絡電話</span><span class="req">*</span></span></label>
                 <input class="input" type="tel" id="f-phone" name="phone" required maxlength="20" autocomplete="tel"
                        pattern="[0-9+\-\(\)#\s]{6,20}" inputmode="tel" placeholder="0912 345 678">
                 <p class="err-msg"></p>
               </div>
-              <div class="field" data-error="請填寫有效的 Email">
+              <div class="field" data-error="請填寫有效的 Email" data-i18n-err="err.email">
                 <label class="label" for="f-email"><span>Email<span class="req">*</span></span></label>
                 <input class="input" type="email" id="f-email" name="email" required maxlength="254" autocomplete="email" placeholder="name@example.com">
                 <p class="err-msg"></p>
               </div>
               <div class="field">
-                <label class="label" for="f-lineId"><span>LINE ID</span><span class="opt">選填・用於接收折扣碼</span></label>
+                <label class="label" for="f-lineId"><span>LINE ID</span><span class="opt" data-i18n="opt.lineId">選填・用於接收折扣碼</span></label>
                 <input class="input" type="text" id="f-lineId" name="lineId" maxlength="50" autocomplete="off" autocapitalize="off" spellcheck="false">
                 <p class="err-msg"></p>
               </div>
@@ -533,11 +557,11 @@
           <section class="section" id="sec-product" data-step="product">
             <div class="section-head">
               <span class="section-num">02</span>
-              <div><h2>產品資訊</h2><p>序號通常位於產品底部、背面或外盒標籤上。</p></div>
+              <div><h2 data-i18n="sec.product.title">產品資訊</h2><p data-i18n="sec.product.desc">序號通常位於產品底部、背面或外盒標籤上。</p></div>
             </div>
             <!-- value 需與 Code.gs 的 FIELDS.brand.options 完全一致 -->
-            <fieldset class="field" data-error="請選擇產品廠牌">
-              <legend class="label"><span>產品廠牌<span class="req">*</span></span></legend>
+            <fieldset class="field" data-error="請選擇產品廠牌" data-i18n-err="err.brand">
+              <legend class="label"><span><span data-i18n="label.brand">產品廠牌</span><span class="req">*</span></span></legend>
               <div class="options">
                 <label class="option"><input type="radio" name="brand" value="AIAIAI" required><span class="radio"></span>AIAIAI</label>
                 <label class="option"><input type="radio" name="brand" value="AUDEZE"><span class="radio"></span>AUDEZE</label>
@@ -550,26 +574,26 @@
               <p class="err-msg"></p>
             </fieldset>
             <div class="grid two">
-              <div class="field" data-error="請填寫產品型號">
-                <label class="label" for="f-model"><span>產品型號<span class="req">*</span></span></label>
+              <div class="field" data-error="請填寫產品型號" data-i18n-err="err.model">
+                <label class="label" for="f-model"><span><span data-i18n="label.model">產品型號</span><span class="req">*</span></span></label>
                 <div class="input-group">
-                  <input class="input" type="text" id="f-model" name="model" required maxlength="100" autocomplete="off" placeholder="例如 LCD-X">
-                  <button type="button" class="scan-btn" data-scan-target="f-model" aria-label="掃描型號條碼" hidden>
+                  <input class="input" type="text" id="f-model" name="model" required maxlength="100" autocomplete="off" placeholder="例如 LCD-X" data-i18n-attr="placeholder=ph.model">
+                  <button type="button" class="scan-btn" data-scan-target="f-model" aria-label="掃描型號條碼" data-i18n-attr="aria-label=scan.modelAria" hidden>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M13 8v8M17 8v8"/></svg>
-                    <span>掃描</span>
+                    <span data-i18n="scan.btn">掃描</span>
                   </button>
                 </div>
                 <p class="field-note" data-note-for="f-model" hidden></p>
                 <p class="err-msg"></p>
               </div>
-              <div class="field" data-error="請填寫產品序號">
-                <label class="label" for="f-serial"><span>原廠序號 S/N<span class="req">*</span></span></label>
+              <div class="field" data-error="請填寫產品序號" data-i18n-err="err.serial">
+                <label class="label" for="f-serial"><span><span data-i18n="label.serial">原廠序號 S/N</span><span class="req">*</span></span></label>
                 <div class="input-group">
                   <input class="input" type="text" id="f-serial" name="serial" required maxlength="100" autocomplete="off"
                          autocapitalize="characters" spellcheck="false">
-                  <button type="button" class="scan-btn" data-scan-target="f-serial" aria-label="掃描序號條碼" hidden>
+                  <button type="button" class="scan-btn" data-scan-target="f-serial" aria-label="掃描序號條碼" data-i18n-attr="aria-label=scan.serialAria" hidden>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M13 8v8M17 8v8"/></svg>
-                    <span>掃描</span>
+                    <span data-i18n="scan.btn">掃描</span>
                   </button>
                 </div>
                 <p class="field-note" data-note-for="f-serial" hidden></p>
@@ -582,34 +606,34 @@
           <section class="section" id="sec-purchase" data-step="purchase">
             <div class="section-head">
               <span class="section-num">03</span>
-              <div><h2>購買資訊</h2><p>請依發票或收據上的資訊填寫。</p></div>
+              <div><h2 data-i18n="sec.purchase.title">購買資訊</h2><p data-i18n="sec.purchase.desc">請依發票或收據上的資訊填寫。</p></div>
             </div>
             <div class="grid two">
-              <div class="field" data-error="請選擇購買日期（不可晚於今天）">
-                <label class="label" for="f-purchaseDate"><span>購買日期<span class="req">*</span></span></label>
+              <div class="field" data-error="請選擇購買日期（不可晚於今天）" data-i18n-err="err.purchaseDate">
+                <label class="label" for="f-purchaseDate"><span><span data-i18n="label.purchaseDate">購買日期</span><span class="req">*</span></span></label>
                 <input class="input" type="date" id="f-purchaseDate" name="purchaseDate" required min="2000-01-01">
                 <p class="err-msg"></p>
               </div>
-              <div class="field" data-error="請填寫購買店家或平台名稱">
-                <label class="label" for="f-store"><span>購買店家 / 平台<span class="req">*</span></span></label>
-                <input class="input" type="text" id="f-store" name="store" required maxlength="100" autocomplete="off" placeholder="例如 台北門市、MoMo 店名">
+              <div class="field" data-error="請填寫購買店家或平台名稱" data-i18n-err="err.store">
+                <label class="label" for="f-store"><span><span data-i18n="label.store">購買店家 / 平台</span><span class="req">*</span></span></label>
+                <input class="input" type="text" id="f-store" name="store" required maxlength="100" autocomplete="off" placeholder="例如 台北門市、MoMo 店名" data-i18n-attr="placeholder=ph.store">
                 <p class="err-msg"></p>
               </div>
             </div>
             <!-- value 需與 Code.gs 的 FIELDS.channel.options 完全一致 -->
-            <fieldset class="field" data-error="請選擇購買通路">
-              <legend class="label"><span>購買通路<span class="req">*</span></span></legend>
+            <fieldset class="field" data-error="請選擇購買通路" data-i18n-err="err.channel">
+              <legend class="label"><span><span data-i18n="label.channel">購買通路</span><span class="req">*</span></span></legend>
               <div class="options wide">
-                <label class="option"><input type="radio" name="channel" value="揚聲堡音樂實體門市" required><span class="radio"></span>揚聲堡音樂實體門市</label>
-                <label class="option"><input type="radio" name="channel" value="揚聲堡音樂線上商城"><span class="radio"></span>揚聲堡音樂線上商城</label>
-                <label class="option"><input type="radio" name="channel" value="授權電商平台 - MoMo"><span class="radio"></span><span>MoMo<small>授權電商平台</small></span></label>
-                <label class="option"><input type="radio" name="channel" value="授權電商平台 - PCHome"><span class="radio"></span><span>PChome<small>授權電商平台</small></span></label>
-                <label class="option"><input type="radio" name="channel" value="授權經銷商"><span class="radio"></span>授權經銷商</label>
+                <label class="option"><input type="radio" name="channel" value="揚聲堡音樂實體門市" required><span class="radio"></span><span data-i18n="ch.store">揚聲堡音樂實體門市</span></label>
+                <label class="option"><input type="radio" name="channel" value="揚聲堡音樂線上商城"><span class="radio"></span><span data-i18n="ch.online">揚聲堡音樂線上商城</span></label>
+                <label class="option"><input type="radio" name="channel" value="授權電商平台 - MoMo"><span class="radio"></span><span>MoMo<small data-i18n="ch.ecom">授權電商平台</small></span></label>
+                <label class="option"><input type="radio" name="channel" value="授權電商平台 - PCHome"><span class="radio"></span><span>PChome<small data-i18n="ch.ecom">授權電商平台</small></span></label>
+                <label class="option"><input type="radio" name="channel" value="授權經銷商"><span class="radio"></span><span data-i18n="ch.dealer">授權經銷商</span></label>
               </div>
               <p class="err-msg"></p>
             </fieldset>
             <div class="field">
-              <div class="label"><span>購買憑證</span><span class="opt">選填・最多 3 張</span></div>
+              <div class="label"><span data-i18n="label.photos">購買憑證</span><span class="opt" data-i18n="opt.photos">選填・最多 3 張</span></div>
               <label class="dropzone" id="dropzone">
                 <input type="file" id="f-photos" accept="image/*" multiple>
                 <span class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></span>
@@ -624,21 +648,21 @@
           <section class="section" id="sec-confirm" data-step="confirm">
             <div class="section-head">
               <span class="section-num">04</span>
-              <div><h2>確認與送出</h2><p>請閱讀以下個人資料告知事項。</p></div>
+              <div><h2 data-i18n="sec.confirm.title">確認與送出</h2><p data-i18n="sec.confirm.desc">請閱讀以下個人資料告知事項。</p></div>
             </div>
-            <div class="privacy" tabindex="0" aria-label="個人資料蒐集與使用告知事項">
-              <p>群彩文創／揚聲堡音樂中心為提供產品註冊、保固管理、維修及售後服務，將蒐集您的姓名、電話、電子郵件、產品序號及購買資訊等資料。上述資料將於保固及售後服務所需期間內，由本公司及必要之合作原廠、授權經銷商、維修單位與系統服務商，於台灣及服務所需之境外地區，以電子或其他合法方式處理及利用。您可依法向本公司申請查詢、閱覽、複製、更正、停止利用或刪除個人資料。若未提供必要資料，可能影響產品註冊及保固資格確認，但不影響依法享有之權益。如有疑問請聯繫 <a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a>。</p>
+            <div class="privacy" tabindex="0" aria-label="個人資料蒐集與使用告知事項" data-i18n-attr="aria-label=privacy.aria">
+              <p data-i18n="privacy.body">群彩文創／揚聲堡音樂中心為提供產品註冊、保固管理、維修及售後服務，將蒐集您的姓名、電話、電子郵件、產品序號及購買資訊等資料。上述資料將於保固及售後服務所需期間內，由本公司及必要之合作原廠、授權經銷商、維修單位與系統服務商，於台灣及服務所需之境外地區，以電子或其他合法方式處理及利用。您可依法向本公司申請查詢、閱覽、複製、更正、停止利用或刪除個人資料。若未提供必要資料，可能影響產品註冊及保固資格確認，但不影響依法享有之權益。如有疑問請聯繫 <a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a>。</p>
             </div>
-            <div class="field" data-error="請勾選同意後才能送出">
+            <div class="field" data-error="請勾選同意後才能送出" data-i18n-err="err.consent">
               <label class="check">
                 <input type="checkbox" id="f-privacyConsent" name="privacyConsent" required>
-                <span>我已閱讀並同意上述個人資料蒐集與使用告知事項<span class="req">*</span></span>
+                <span><span data-i18n="consent.label">我已閱讀並同意上述個人資料蒐集與使用告知事項</span><span class="req">*</span></span>
               </label>
               <p class="err-msg"></p>
             </div>
             <div class="field">
               <label class="switch-row" for="f-marketing">
-                <span><b>接收新品與優惠通知</b><span>不定期提供新品資訊、品牌活動與專屬折扣</span></span>
+                <span><b data-i18n="mkt.title">接收新品與優惠通知</b><span data-i18n="mkt.desc">不定期提供新品資訊、品牌活動與專屬折扣</span></span>
                 <span class="switch"><input type="checkbox" id="f-marketing" role="switch"><span class="track"></span></span>
               </label>
             </div>
@@ -649,7 +673,7 @@
               <div class="turnstile-wrap" id="turnstile"></div>
               <button type="submit" class="submit" id="submit-btn">送出登錄</button>
               <div class="status" id="status" role="status" aria-live="polite"></div>
-              <p class="fineprint">送出即表示您確認以上資料正確無誤</p>
+              <p class="fineprint" data-i18n="fineprint">送出即表示您確認以上資料正確無誤</p>
             </div>
           </section>
         </form>
@@ -657,10 +681,10 @@
         <!-- 成功畫面 -->
         <section class="section done-view" id="done-view" hidden tabindex="-1">
           <div class="badge"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></div>
-          <h2>登錄完成</h2>
+          <h2 data-i18n="done.title">登錄完成</h2>
           <p id="done-message">感謝您的登錄，保固資料已建立。</p>
           <dl class="receipt" id="receipt"></dl>
-          <button type="button" class="ghost-btn" id="again-btn">登錄另一項產品</button>
+          <button type="button" class="ghost-btn" id="again-btn" data-i18n="done.again">登錄另一項產品</button>
         </section>
       </div>
     </div>
@@ -671,10 +695,10 @@
     <div class="scanner-head">
       <h3 id="scanner-title">掃描序號條碼</h3>
       <div style="display:flex;gap:8px">
-        <button type="button" class="icon-btn" id="torch-btn" aria-label="手電筒" aria-pressed="false" hidden>
+        <button type="button" class="icon-btn" id="torch-btn" aria-label="手電筒" data-i18n-attr="aria-label=scan.torch" aria-pressed="false" hidden>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2h10l-2 6H9z"/><path d="M9 8v12a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V8"/><path d="M12 13v3"/></svg>
         </button>
-        <button type="button" class="icon-btn" id="scanner-close" aria-label="關閉">
+        <button type="button" class="icon-btn" id="scanner-close" aria-label="關閉" data-i18n-attr="aria-label=scan.close">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
         </button>
       </div>
@@ -685,20 +709,20 @@
       <div class="overlay-msg" id="scanner-overlay">啟動相機中…</div>
     </div>
     <div class="scanner-body">
-      <p class="scanner-hint" id="scanner-hint" aria-live="polite">將條碼對準框內並保持穩定</p>
+      <p class="scanner-hint" id="scanner-hint" aria-live="polite" data-i18n="scan.aim">將條碼對準框內並保持穩定</p>
       <div class="choices" id="scanner-choices" hidden></div>
       <div class="scanner-actions">
         <label>
           <input type="file" id="scanner-photo" accept="image/*" capture="environment">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
-          改用拍照辨識
+          <span data-i18n="scan.photo">改用拍照辨識</span>
         </label>
-        <button type="button" id="scanner-manual">手動輸入</button>
+        <button type="button" id="scanner-manual" data-i18n="scan.manual">手動輸入</button>
       </div>
     </div>
   </dialog>
 
-  <footer class="footer">© 群彩文創有限公司 / 揚聲堡音樂</footer>
+  <footer class="footer" data-i18n="footer">© 群彩文創有限公司 / 揚聲堡音樂</footer>
 
   <script>
     // =====================================================================
@@ -721,6 +745,260 @@
 
     // 送到後端的字串欄位（radio 群組也適用：RadioNodeList.value = 選中的值）
     const TEXT_FIELDS = ['name', 'phone', 'email', 'lineId', 'brand', 'model', 'serial', 'purchaseDate', 'channel', 'store'];
+
+    // =====================================================================
+    // 多語系（中文 / English）
+    // 靜態文字：HTML 用 data-i18n（內容）、data-i18n-attr（屬性）、data-i18n-err（錯誤訊息）標記，
+    //           中文直接寫在 HTML 裡，載入時自動收進 I18N.zh；英文寫在下方 I18N.en。
+    // 動態文字：程式裡用 t('key', { 變數 })。
+    // =====================================================================
+    const I18N = {
+      zh: {
+        'doc.title': '產品保固登錄｜群彩文創 × 揚聲堡音樂',
+        'doc.desc': '群彩文創 / 揚聲堡音樂 代理產品線上保固登錄',
+        'lang.switch': 'Switch to English',
+        'lang.btn': 'EN',
+        'progress': '已完成 {pct}%',
+        'err.default': '此欄位格式不正確',
+        'turnstile.loadFail': '人機驗證載入失敗，請重新整理頁面後再試。',
+        'photo.max': '購買憑證最多 {max} 張。',
+        'photo.onlyFirst': '最多 {max} 張，只加入前 {room} 張。',
+        'photo.tooBigTotal': '「{name}」加入後總大小會超過 5MB。',
+        'photo.named': '「{name}」{msg}',
+        'photo.tooLarge': '檔案太大（上限 50MB）。',
+        'photo.convertFail': '轉檔失敗。',
+        'photo.heic': '此瀏覽器無法讀取 HEIC，請改用 Safari，或先將照片轉成 JPEG。',
+        'photo.unreadable': '無法讀取，請確認是圖片檔。',
+        'photo.readFail': '讀取照片失敗。',
+        'photo.alt': '購買憑證 {n}',
+        'photo.remove': '移除第 {n} 張照片',
+        'photo.processing': '處理中',
+        'submit.invalid': '還有欄位需要填寫或修正。',
+        'submit.noEndpoint': '尚未設定後端網址（CONFIG.ENDPOINT）。',
+        'submit.needTurnstile': '請先完成上方的人機驗證。',
+        'submit.sending': '資料傳送中，請勿關閉頁面…',
+        'submit.badResponse': '伺服器回應格式錯誤（HTTP {status}），請稍後再試。',
+        'submit.failed': '送出失敗，請稍後再試。',
+        'submit.timeout': '連線逾時，請檢查網路後再試一次（不會重複登錄）。',
+        'submit.network': '網路連線失敗，請檢查網路後再試一次（不會重複登錄）。',
+        'btn.submit': '送出登錄',
+        'btn.sending': '送出中…',
+        'btn.processing': '照片處理中…',
+        'drop.full': '已加入 {max} 張',
+        'drop.title': '拖曳照片到這裡，或<u>點此選擇</u>',
+        'drop.replace': '如需更換，請先移除下方照片',
+        'drop.sub': '發票、收據或訂單截圖・已加入 {n}/{max} 張',
+        'done.default': '感謝您的登錄，保固資料已建立。',
+        'done.success': '保固登錄完成，感謝您的填寫！',
+        'done.duplicate': '這筆資料先前已送出成功，不會重複記錄。',
+        'rc.id': '登錄編號', 'rc.product': '產品', 'rc.serial': '序號', 'rc.date': '購買日期', 'rc.photos': '購買憑證',
+        'rc.photoCount': '{n} 張', 'rc.noPhoto': '未上傳',
+        'scan.label.serial': '序號', 'scan.label.model': '型號',
+        'scan.title': '掃描{label}條碼',
+        'scan.starting': '啟動相機中…',
+        'scan.fallback': '可以改用下方「拍照辨識」或手動輸入。',
+        'scan.loading': '載入掃描元件中…',
+        'scan.loadFail': '掃描元件載入失敗，請檢查網路，或改用手動輸入。',
+        'cam.denied': '相機權限被拒絕。請在瀏覽器設定中允許使用相機。',
+        'cam.notFound': '找不到可用的相機。',
+        'cam.busy': '相機正被其他 App 使用中。',
+        'cam.unsupported': '此瀏覽器不支援即時相機掃描。',
+        'cam.https': '需要 HTTPS 網址才能使用相機。',
+        'cam.fail': '無法啟動相機。',
+        'scan.multi': '偵測到多個條碼，請點選產品{label}：',
+        'scan.productCode': '這是商品條碼（EAN/UPC），通常不是{label}，確定要使用嗎？',
+        'scan.unsure': '這看起來不像產品{label}，確定要使用嗎？',
+        'scan.productCodeTag': '商品條碼',
+        'scan.noneOfThese': '都不是，繼續掃描',
+        'scan.retakePhoto': '請再拍一次，或手動輸入。',
+        'scan.filled': '✓ 已從條碼填入，請核對是否與產品標籤一致',
+        'scan.recognizing': '辨識中…',
+        'scan.notFound': '照片中找不到條碼。請靠近一點、確認對焦清楚後再拍一次。',
+        'scan.photoFail': '無法辨識這張照片，請再試一次或手動輸入。',
+      },
+      en: {
+        'doc.title': 'Product Warranty Registration | Ensemble Music Center',
+        'doc.desc': 'Online warranty registration for products distributed by Cyuncai / Ensemble Music Center',
+        'lang.switch': '切換為中文',
+        'lang.btn': '中文',
+        'home.aria': 'Back to home',
+        'banner.aria': 'Ensemble Music Center',
+        'brand.cyuncai': 'Cyuncai',
+        'brand.emc': 'Ensemble Music Center',
+        'hero.title': 'Product Warranty Registration',
+        'hero.lead': 'Thank you for choosing a product distributed by Cyuncai / Ensemble Music Center. Please register <strong>within 7 days of purchase</strong> to secure your warranty and after-sales service.',
+        'chip.time': 'About 2 minutes',
+        'chip.receipt': 'Have your invoice or receipt ready',
+        'chip.secure': 'Encrypted submission',
+        'steps.aria': 'Progress',
+        'step.contact': 'Contact', 'step.product': 'Product', 'step.purchase': 'Purchase', 'step.confirm': 'Review & submit',
+        'help.title': 'Need help?',
+        'sec.contact.title': 'Contact information',
+        'sec.contact.desc': 'We use these details to reach you about warranty and repair service.',
+        'sec.product.title': 'Product information',
+        'sec.product.desc': 'The serial number is usually on the bottom or back of the product, or on the box label.',
+        'sec.purchase.title': 'Purchase information',
+        'sec.purchase.desc': 'Please fill this in from your invoice or receipt.',
+        'sec.confirm.title': 'Review & submit',
+        'sec.confirm.desc': 'Please read the privacy notice below.',
+        'label.name': 'Full name', 'label.phone': 'Phone', 'label.brand': 'Brand', 'label.model': 'Model',
+        'label.serial': 'Serial number (S/N)', 'label.purchaseDate': 'Purchase date', 'label.store': 'Store / platform',
+        'label.channel': 'Purchase channel', 'label.photos': 'Proof of purchase',
+        'opt.lineId': 'Optional · for discount codes',
+        'opt.photos': 'Optional · up to 3 photos',
+        'ph.model': 'e.g. LCD-X',
+        'ph.store': 'e.g. Taipei store, MoMo shop name',
+        'scan.btn': 'Scan', 'scan.modelAria': 'Scan model barcode', 'scan.serialAria': 'Scan serial number barcode',
+        'ch.store': 'Ensemble Music Center store', 'ch.online': 'Ensemble Music Center online shop',
+        'ch.ecom': 'Authorized online retailer', 'ch.dealer': 'Authorized dealer',
+        'err.name': 'Please enter your name',
+        'err.phone': 'Please enter a valid phone number',
+        'err.email': 'Please enter a valid email',
+        'err.brand': 'Please choose a brand',
+        'err.model': 'Please enter the model',
+        'err.serial': 'Please enter the serial number',
+        'err.purchaseDate': 'Please choose the purchase date (not in the future)',
+        'err.store': 'Please enter the store or platform',
+        'err.channel': 'Please choose a purchase channel',
+        'err.consent': 'Please accept to continue',
+        'err.default': 'This field is not valid',
+        'privacy.aria': 'Privacy notice',
+        'privacy.body': 'Cyuncai / Ensemble Music Center collects your name, phone number, email, product serial number and purchase details to provide product registration, warranty management, repair and after-sales service. This data is processed and used electronically or by other lawful means, in Taiwan and in other regions where service requires, by us and by the manufacturers, authorized dealers, repair centers and system providers we work with, for as long as warranty and after-sales service require. You may ask us to look up, view, copy, correct, stop using or delete your personal data as provided by law. If you do not provide the required data, we may be unable to register your product or confirm warranty eligibility; this does not affect your statutory rights. Questions: <a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a>.',
+        'consent.label': 'I have read and agree to the privacy notice above',
+        'mkt.title': 'Get new product and offer updates',
+        'mkt.desc': 'Occasional news on new products, brand events and exclusive discounts',
+        'fineprint': 'By submitting, you confirm the information above is correct',
+        'done.title': 'Registration complete',
+        'done.again': 'Register another product',
+        'scan.torch': 'Flashlight', 'scan.close': 'Close',
+        'scan.aim': 'Hold the barcode steady inside the frame',
+        'scan.photo': 'Take a photo instead', 'scan.manual': 'Type it in',
+        'footer': '© Cyuncai Co., Ltd. / Ensemble Music Center',
+        'progress': '{pct}% done',
+        'turnstile.loadFail': 'Verification failed to load. Please reload the page and try again.',
+        'photo.max': 'Up to {max} photos of proof of purchase.',
+        'photo.onlyFirst': 'Up to {max} photos; only the first {room} were added.',
+        'photo.tooBigTotal': '"{name}" would bring the total over 5MB.',
+        'photo.named': '"{name}": {msg}',
+        'photo.tooLarge': 'File is too large (50MB max).',
+        'photo.convertFail': 'Could not convert the image.',
+        'photo.heic': 'This browser cannot read HEIC. Please use Safari or convert the photo to JPEG first.',
+        'photo.unreadable': 'Could not read it. Please make sure it is an image file.',
+        'photo.readFail': 'Could not read the photo.',
+        'photo.alt': 'Proof of purchase {n}',
+        'photo.remove': 'Remove photo {n}',
+        'photo.processing': 'Processing',
+        'submit.invalid': 'Some fields still need to be filled in or fixed.',
+        'submit.noEndpoint': 'Backend URL is not set (CONFIG.ENDPOINT).',
+        'submit.needTurnstile': 'Please complete the verification above first.',
+        'submit.sending': 'Sending… please keep this page open.',
+        'submit.badResponse': 'Unexpected server response (HTTP {status}). Please try again later.',
+        'submit.failed': 'Submission failed. Please try again later.',
+        'submit.timeout': 'The connection timed out. Please check your network and try again (it will not be registered twice).',
+        'submit.network': 'Network error. Please check your connection and try again (it will not be registered twice).',
+        'btn.submit': 'Submit registration',
+        'btn.sending': 'Sending…',
+        'btn.processing': 'Processing photos…',
+        'drop.full': '{max} photos added',
+        'drop.title': 'Drag photos here, or <u>click to choose</u>',
+        'drop.replace': 'To replace one, remove a photo below first',
+        'drop.sub': 'Invoice, receipt or order screenshot · {n}/{max} added',
+        'done.default': 'Thank you. Your warranty has been registered.',
+        'done.success': 'Your warranty registration is complete. Thank you!',
+        'done.duplicate': 'This registration was already submitted and will not be recorded twice.',
+        'rc.id': 'Registration no.', 'rc.product': 'Product', 'rc.serial': 'Serial no.', 'rc.date': 'Purchase date', 'rc.photos': 'Proof of purchase',
+        'rc.photoCount': '{n}', 'rc.noPhoto': 'None',
+        'scan.label.serial': 'serial number', 'scan.label.model': 'model',
+        'scan.title': 'Scan {label} barcode',
+        'scan.starting': 'Starting camera…',
+        'scan.fallback': 'You can take a photo below or type it in instead.',
+        'scan.loading': 'Loading scanner…',
+        'scan.loadFail': 'The scanner failed to load. Check your network, or type it in instead.',
+        'cam.denied': 'Camera access was denied. Please allow the camera in your browser settings.',
+        'cam.notFound': 'No camera was found.',
+        'cam.busy': 'The camera is in use by another app.',
+        'cam.unsupported': 'This browser does not support live camera scanning.',
+        'cam.https': 'The camera requires an HTTPS address.',
+        'cam.fail': 'Could not start the camera.',
+        'scan.multi': 'Several barcodes found. Tap the product {label}:',
+        'scan.productCode': 'This is a retail barcode (EAN/UPC) and usually not the {label}. Use it anyway?',
+        'scan.unsure': 'This does not look like a product {label}. Use it anyway?',
+        'scan.productCodeTag': 'retail barcode',
+        'scan.noneOfThese': 'None of these, keep scanning',
+        'scan.retakePhoto': 'Please take another photo, or type it in.',
+        'scan.filled': '✓ Filled from barcode. Please check it matches the product label.',
+        'scan.recognizing': 'Reading…',
+        'scan.notFound': 'No barcode found in the photo. Move closer, make sure it is in focus, and try again.',
+        'scan.photoFail': 'Could not read this photo. Please try again or type it in.',
+      },
+    };
+
+    const LANGS = ['zh', 'en'];
+    let lang = detectLang();
+
+    function detectLang() {
+      const q = new URLSearchParams(location.search).get('lang');
+      if (LANGS.includes(q)) return q;
+      try {
+        const saved = localStorage.getItem('lang');
+        if (LANGS.includes(saved)) return saved;
+      } catch (_) { /* 無痕模式等情況讀不到 */ }
+      return /^zh\b/i.test(navigator.language || '') || !navigator.language ? 'zh' : 'en';
+    }
+
+    function t(key, vars) {
+      let str = (I18N[lang] && I18N[lang][key]) ?? I18N.zh[key] ?? key;
+      if (vars) str = str.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
+      return str;
+    }
+
+    // 把 HTML 裡寫好的中文收進 I18N.zh，切回中文時用
+    (function captureZh() {
+      const zh = I18N.zh;
+      document.querySelectorAll('[data-i18n]').forEach((el) => { zh[el.dataset.i18n] ??= el.innerHTML; });
+      document.querySelectorAll('[data-i18n-err]').forEach((el) => { zh[el.dataset.i18nErr] ??= el.dataset.error; });
+      document.querySelectorAll('[data-i18n-attr]').forEach((el) => {
+        el.dataset.i18nAttr.split(',').forEach((pair) => {
+          const [attr, key] = pair.split('=');
+          zh[key] ??= el.getAttribute(attr) || '';
+        });
+      });
+    })();
+
+    function applyLang() {
+      document.documentElement.lang = lang === 'en' ? 'en' : 'zh-Hant-TW';
+      document.title = t('doc.title');
+      document.querySelector('meta[name="description"]').content = t('doc.desc');
+      document.querySelectorAll('[data-i18n]').forEach((el) => { el.innerHTML = t(el.dataset.i18n); });
+      document.querySelectorAll('[data-i18n-err]').forEach((el) => {
+        el.dataset.error = t(el.dataset.i18nErr);
+        if (el.classList.contains('has-error')) el.querySelector('.err-msg').textContent = el.dataset.error;
+      });
+      document.querySelectorAll('[data-i18n-attr]').forEach((el) => {
+        el.dataset.i18nAttr.split(',').forEach((pair) => {
+          const [attr, key] = pair.split('=');
+          el.setAttribute(attr, t(key));
+        });
+      });
+      const btn = document.getElementById('lang-btn');
+      btn.lang = lang === 'en' ? 'zh-Hant-TW' : 'en';
+      btn.setAttribute('aria-label', t('lang.switch'));
+      document.getElementById('lang-btn-text').textContent = t('lang.btn');
+    }
+
+    function setLang(next) {
+      if (next === lang || !LANGS.includes(next)) return;
+      lang = next;
+      try { localStorage.setItem('lang', lang); } catch (_) { /* ignore */ }
+      const url = new URL(location.href);
+      url.searchParams.delete('lang');
+      history.replaceState(null, '', url);
+      applyLang();
+      langListeners.forEach((fn) => fn());
+    }
+    const langListeners = [];
+    document.getElementById('lang-btn').addEventListener('click', () => setLang(lang === 'zh' ? 'en' : 'zh'));
+    applyLang();
 
     const $ = (sel) => document.querySelector(sel);
     const form = $('#warranty-form');
@@ -747,15 +1025,20 @@
     // ---------------------------------------------------------------------
     // Turnstile
     // ---------------------------------------------------------------------
-    window.onTurnstileLoad = function () {
+    function renderTurnstile() {
+      if (!window.turnstile) return;
+      if (turnstileWidgetId !== null) turnstile.remove(turnstileWidgetId);
       turnstileWidgetId = turnstile.render('#turnstile', {
         sitekey: CONFIG.TURNSTILE_SITE_KEY,
-        language: 'zh-tw',
+        language: lang === 'en' ? 'en' : 'zh-tw',
         theme: 'auto',
         size: 'flexible',
-        'error-callback': () => setStatus('error', '人機驗證載入失敗，請重新整理頁面後再試。'),
+        'error-callback': () => setStatus('error', t('turnstile.loadFail')),
       });
-    };
+    }
+    window.onTurnstileLoad = renderTurnstile;
+    // 切換語系時重畫驗證元件（已勾選的驗證會重新取得）
+    langListeners.push(() => { if (TURNSTILE_ENABLED && !isSubmitting) renderTurnstile(); });
 
     const TURNSTILE_ENABLED = Boolean(CONFIG.TURNSTILE_SITE_KEY.trim());
     if (TURNSTILE_ENABLED) {
@@ -790,7 +1073,7 @@
       const ok = fieldIsValid(field);
       field.classList.toggle('has-error', !ok);
       const msg = field.querySelector('.err-msg');
-      if (msg) msg.textContent = ok ? '' : (field.dataset.error || '此欄位格式不正確');
+      if (msg) msg.textContent = ok ? '' : (field.dataset.error || t('err.default'));
       return ok;
     }
 
@@ -812,7 +1095,7 @@
       const done = required.filter(fieldIsValid).length;
       const pct = Math.round((done / required.length) * 100);
       $('#progress-bar').style.width = pct + '%';
-      $('#progress-label').textContent = `已完成 ${pct}%`;
+      $('#progress-label').textContent = t('progress', { pct });
       document.querySelectorAll('#steps li').forEach((li) => {
         const sec = form.querySelector(`.section[data-step="${li.dataset.step}"]`);
         const fields = [...sec.querySelectorAll('.field[data-error]')];
@@ -859,11 +1142,11 @@
       const room = CONFIG.MAX_PHOTOS - photos.length - pendingPhotos;
       const errors = [];
       if (room <= 0) {
-        setStatus('error', `購買憑證最多 ${CONFIG.MAX_PHOTOS} 張。`);
+        setStatus('error', t('photo.max', { max: CONFIG.MAX_PHOTOS }));
         return;
       }
       if (files.length > room) {
-        errors.push(`最多 ${CONFIG.MAX_PHOTOS} 張，只加入前 ${room} 張。`);
+        errors.push(t('photo.onlyFirst', { max: CONFIG.MAX_PHOTOS, room }));
         files = files.slice(0, room);
       }
 
@@ -874,12 +1157,12 @@
           const p = await processImage(file);
           if (totalPhotoBytes() + p.bytes > CONFIG.MAX_TOTAL_BYTES) {
             URL.revokeObjectURL(p.previewUrl);
-            errors.push(`「${file.name}」加入後總大小會超過 5MB。`);
+            errors.push(t('photo.tooBigTotal', { name: file.name }));
           } else {
             photos.push(p);
           }
         } catch (err) {
-          errors.push(`「${file.name}」${err.message}`);
+          errors.push(t('photo.named', { name: file.name, msg: err.message }));
         }
         pendingPhotos--;
         updateUi();
@@ -889,7 +1172,7 @@
     }
 
     async function processImage(file) {
-      if (file.size > CONFIG.MAX_INPUT_FILE_BYTES) throw new Error('檔案太大（上限 50MB）。');
+      if (file.size > CONFIG.MAX_INPUT_FILE_BYTES) throw new Error(t('photo.tooLarge'));
       const img = await decodeImage(file);
       try {
         const scale = Math.min(1, CONFIG.MAX_EDGE / Math.max(img.width, img.height));
@@ -907,7 +1190,7 @@
 
         // canvas 重新編碼的 JPEG 不含任何 EXIF（GPS、拍攝裝置等都會被移除）
         const blob = await new Promise((resolve, reject) =>
-          canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('轉檔失敗。'))), 'image/jpeg', CONFIG.JPEG_QUALITY));
+          canvas.toBlob((b) => (b ? resolve(b) : reject(new Error(t('photo.convertFail')))), 'image/jpeg', CONFIG.JPEG_QUALITY));
         canvas.width = canvas.height = 0; // 釋放記憶體（iOS Safari）
 
         return {
@@ -943,8 +1226,8 @@
         URL.revokeObjectURL(url);
         const isHeic = /\.(heic|heif)$/i.test(file.name) || /hei[cf]/i.test(file.type);
         throw new Error(isHeic
-          ? '此瀏覽器無法讀取 HEIC，請改用 Safari，或先將照片轉成 JPEG。'
-          : '無法讀取，請確認是圖片檔。');
+          ? t('photo.heic')
+          : t('photo.unreadable'));
       }
       return { source: el, width: el.naturalWidth, height: el.naturalHeight, release: () => URL.revokeObjectURL(url) };
     }
@@ -953,7 +1236,7 @@
       return new Promise((resolve, reject) => {
         const r = new FileReader();
         r.onload = () => resolve(String(r.result).split(',')[1]);
-        r.onerror = () => reject(new Error('讀取照片失敗。'));
+        r.onerror = () => reject(new Error(t('photo.readFail')));
         r.readAsDataURL(blob);
       });
     }
@@ -968,14 +1251,14 @@
         fig.className = 'preview';
         const img = document.createElement('img');
         img.src = p.previewUrl;
-        img.alt = `購買憑證 ${i + 1}`;
+        img.alt = t('photo.alt', { n: i + 1 });
         const meta = document.createElement('div');
         meta.className = 'meta';
         meta.innerHTML = `<span>#${i + 1}</span><span>${(p.bytes / 1024).toFixed(0)} KB</span>`;
         const del = document.createElement('button');
         del.type = 'button';
         del.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
-        del.setAttribute('aria-label', `移除第 ${i + 1} 張照片`);
+        del.setAttribute('aria-label', t('photo.remove', { n: i + 1 }));
         del.disabled = isSubmitting;
         del.addEventListener('click', () => removePhoto(p.id));
         fig.append(img, meta, del);
@@ -984,7 +1267,7 @@
       for (let i = 0; i < pendingPhotos; i++) {
         const ph = document.createElement('div');
         ph.className = 'preview loading';
-        ph.innerHTML = '<span class="spinner" style="color:var(--ink-3)" aria-label="處理中"></span>';
+        ph.innerHTML = `<span class="spinner" style="color:var(--ink-3)" aria-label="${t('photo.processing')}"></span>`;
         items.push(ph);
       }
       previewsEl.replaceChildren(...items);
@@ -1007,16 +1290,16 @@
       if (isSubmitting || pendingPhotos > 0) return;
 
       if (!validateAll()) {
-        setStatus('error', '還有欄位需要填寫或修正。', false, false);
+        setStatus('error', t('submit.invalid'), false, false);
         return;
       }
       if (CONFIG.ENDPOINT.includes('PASTE_YOUR')) {
-        setStatus('error', '尚未設定後端網址（CONFIG.ENDPOINT）。');
+        setStatus('error', t('submit.noEndpoint'));
         return;
       }
       const token = TURNSTILE_ENABLED ? getTurnstileToken() : '';
       if (TURNSTILE_ENABLED && !token) {
-        setStatus('error', '請先完成上方的人機驗證。');
+        setStatus('error', t('submit.needTurnstile'));
         return;
       }
 
@@ -1027,6 +1310,7 @@
 
       const payload = {
         submissionId,
+        lang,
         turnstileToken: token,
         website: $('#website').value, // honeypot
         fields,
@@ -1035,7 +1319,7 @@
 
       isSubmitting = true;
       updateUi();
-      setStatus('pending', '資料傳送中，請勿關閉頁面…', true);
+      setStatus('pending', t('submit.sending'), true);
 
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), CONFIG.REQUEST_TIMEOUT_MS);
@@ -1052,16 +1336,16 @@
         try {
           data = await res.json();
         } catch (_) {
-          throw new ServerError(`伺服器回應格式錯誤（HTTP ${res.status}），請稍後再試。`);
+          throw new ServerError(t('submit.badResponse', { status: res.status }));
         }
-        if (!data || data.ok !== true) throw new ServerError((data && data.message) || '送出失敗，請稍後再試。');
+        if (!data || data.ok !== true) throw new ServerError((data && data.message) || t('submit.failed'));
 
-        showDone(data.message, fields, submissionId);
+        showDone(data.duplicate ? t('done.duplicate') : t('done.success'), fields, submissionId);
       } catch (err) {
         let msg;
-        if (err.name === 'AbortError') msg = '連線逾時，請檢查網路後再試一次（不會重複登錄）。';
+        if (err.name === 'AbortError') msg = t('submit.timeout');
         else if (err instanceof ServerError) msg = err.message;
-        else msg = '網路連線失敗，請檢查網路後再試一次（不會重複登錄）。';
+        else msg = t('submit.network');
         setStatus('error', msg);
       } finally {
         clearTimeout(timer);
@@ -1071,14 +1355,24 @@
       }
     });
 
+    let lastDone = null;
     function showDone(message, fields, id) {
-      $('#done-message').textContent = message || '感謝您的登錄，保固資料已建立。';
+      lastDone = { fields, id, photoCount: photos.length, duplicate: message === t('done.duplicate') };
+      renderDone();
+      resetForm();
+      showDoneView();
+    }
+
+    function renderDone() {
+      if (!lastDone) return;
+      const { fields, id, photoCount, duplicate } = lastDone;
+      $('#done-message').textContent = duplicate ? t('done.duplicate') : t('done.success');
       const rows = [
-        ['登錄編號', id.replace(/-/g, '').slice(0, 10).toUpperCase(), true],
-        ['產品', `${fields.brand}　${fields.model}`],
-        ['序號', fields.serial, true],
-        ['購買日期', fields.purchaseDate.replace(/-/g, '/')],
-        ['購買憑證', photos.length ? `${photos.length} 張` : '未上傳'],
+        [t('rc.id'), id.replace(/-/g, '').slice(0, 10).toUpperCase(), true],
+        [t('rc.product'), `${fields.brand}　${fields.model}`],
+        [t('rc.serial'), fields.serial, true],
+        [t('rc.date'), fields.purchaseDate.replace(/-/g, '/')],
+        [t('rc.photos'), photoCount ? t('rc.photoCount', { n: photoCount }) : t('rc.noPhoto')],
       ];
       $('#receipt').replaceChildren(...rows.map(([k, v, mono]) => {
         const div = document.createElement('div');
@@ -1090,10 +1384,12 @@
         div.append(dt, dd);
         return div;
       }));
-      resetForm();
+    }
+
+    function showDoneView() {
       // 成功畫面上進度維持 100%
       $('#progress-bar').style.width = '100%';
-      $('#progress-label').textContent = '已完成 100%';
+      $('#progress-label').textContent = t('progress', { pct: 100 });
       document.querySelectorAll('#steps li').forEach((li) => li.classList.add('done'));
       document.body.classList.add('is-complete');
       form.hidden = true;
@@ -1102,7 +1398,17 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    langListeners.push(() => {
+      if (!doneView.hidden) {
+        renderDone();
+        $('#progress-label').textContent = t('progress', { pct: 100 });
+      } else {
+        updateUi();
+      }
+    });
+
     $('#again-btn').addEventListener('click', () => {
+      lastDone = null;
       doneView.hidden = true;
       form.hidden = false;
       document.body.classList.remove('is-complete');
@@ -1128,16 +1434,16 @@
       const busy = isSubmitting || pendingPhotos > 0;
       submitBtn.disabled = busy;
       submitBtn.innerHTML = isSubmitting
-        ? '<span class="spinner" aria-hidden="true"></span>送出中…'
-        : pendingPhotos > 0 ? '照片處理中…' : '送出登錄';
+        ? `<span class="spinner" aria-hidden="true"></span>${t('btn.sending')}`
+        : pendingPhotos > 0 ? t('btn.processing') : t('btn.submit');
 
       const full = photos.length + pendingPhotos >= CONFIG.MAX_PHOTOS;
       photoInput.disabled = isSubmitting || full;
       dropzone.classList.toggle('disabled', isSubmitting || full);
-      $('#dropzone-title').innerHTML = full ? `已加入 ${CONFIG.MAX_PHOTOS} 張` : '拖曳照片到這裡，或<u>點此選擇</u>';
+      $('#dropzone-title').innerHTML = full ? t('drop.full', { max: CONFIG.MAX_PHOTOS }) : t('drop.title');
       $('#dropzone-sub').textContent = full
-        ? '如需更換，請先移除下方照片'
-        : `發票、收據或訂單截圖・已加入 ${photos.length}/${CONFIG.MAX_PHOTOS} 張`;
+        ? t('drop.replace')
+        : t('drop.sub', { n: photos.length, max: CONFIG.MAX_PHOTOS });
       renderPreviews();
       updateProgress();
     }
@@ -1184,9 +1490,9 @@
       const PRODUCT_CODES = ['ean_13', 'ean_8', 'upc_a', 'upc_e'];
       const FORMAT_LABEL = {
         code_128: 'Code 128', code_39: 'Code 39', code_93: 'Code 93', codabar: 'Codabar', itf: 'ITF',
-        data_matrix: 'Data Matrix', qr_code: 'QR Code', ean_13: 'EAN-13 商品條碼', ean_8: 'EAN-8 商品條碼',
-        upc_a: 'UPC-A 商品條碼', upc_e: 'UPC-E 商品條碼',
+        data_matrix: 'Data Matrix', qr_code: 'QR Code', ean_13: 'EAN-13', ean_8: 'EAN-8', upc_a: 'UPC-A', upc_e: 'UPC-E',
       };
+      const formatLabel = (f) => (FORMAT_LABEL[f] || f) + (PRODUCT_CODES.includes(f) ? ' ' + t('scan.productCodeTag') : '');
 
       const dlg = $('#scanner');
       const video = $('#scanner-video');
@@ -1202,11 +1508,11 @@
       // 每個可掃描欄位的設定：名稱、要去掉的前綴字樣
       const TARGETS = {
         'f-serial': {
-          label: '序號',
+          labelKey: 'scan.label.serial',
           prefix: /^(?:S\/N|SERIAL(?:\s*(?:NO\.?|NUMBER))?)\s*[:#：]?\s*|^SN\s*[:#：]\s*/i,
         },
         'f-model': {
-          label: '型號',
+          labelKey: 'scan.label.model',
           // 「MODULE-7」這類型號本身以 MOD 開頭，所以 MODEL 後面一定要有冒號或空白才去掉
           prefix: /^(?:MODEL(?:\s*(?:NO\.?|NUMBER|NAME))?|型號)\s*[:#：]\s*|^MODEL(?:\s*(?:NO\.?|NUMBER))?\s+|^P\/N\s*[:#：]?\s*/i,
         },
@@ -1282,17 +1588,17 @@
         finder.classList.remove('found');
         torchBtn.hidden = true;
         torchBtn.setAttribute('aria-pressed', 'false');
-        setHint('將條碼對準框內並保持穩定');
+        setHint(t('scan.aim'));
       }
 
       async function open(targetId = 'f-serial') {
         target = document.getElementById(targetId);
         targetCfg = TARGETS[targetId];
-        title.textContent = `掃描${targetCfg.label}條碼`;
+        title.textContent = t('scan.title', { label: t(targetCfg.labelKey) });
         resetUi();
         dlg.showModal();
         overlay.hidden = false;
-        overlay.textContent = '啟動相機中…';
+        overlay.textContent = t('scan.starting');
         const detP = getDetector();
         detP.catch(() => {}); // 錯誤在下面處理
 
@@ -1311,15 +1617,15 @@
           setupTorch();
         } catch (err) {
           overlay.textContent = cameraErrorText(err);
-          setHint('可以改用下方「拍照辨識」或手動輸入。');
+          setHint(t('scan.fallback'));
           return;
         }
 
-        overlay.textContent = '載入掃描元件中…';
+        overlay.textContent = t('scan.loading');
         try {
           detector = await detP;
         } catch (_) {
-          overlay.textContent = '掃描元件載入失敗，請檢查網路，或改用手動輸入。';
+          overlay.textContent = t('scan.loadFail');
           return;
         }
         if (!dlg.open) return;
@@ -1331,16 +1637,16 @@
         switch (err && err.name) {
           case 'NotAllowedError':
           case 'SecurityError':
-            return '相機權限被拒絕。請在瀏覽器設定中允許使用相機。';
+            return t('cam.denied');
           case 'NotFoundError':
           case 'OverconstrainedError':
-            return '找不到可用的相機。';
+            return t('cam.notFound');
           case 'NotReadableError':
-            return '相機正被其他 App 使用中。';
+            return t('cam.busy');
           case 'NoMediaDevices':
-            return window.isSecureContext ? '此瀏覽器不支援即時相機掃描。' : '需要 HTTPS 網址才能使用相機。';
+            return window.isSecureContext ? t('cam.unsupported') : t('cam.https');
           default:
-            return '無法啟動相機。';
+            return t('cam.fail');
         }
       }
 
@@ -1403,12 +1709,12 @@
       }
 
       function showChoices(list) {
-        const L = targetCfg.label;
+        const label = t(targetCfg.labelKey);
         setHint(list.length > 1
-          ? `偵測到多個條碼，請點選產品${L}：`
+          ? t('scan.multi', { label })
           : (PRODUCT_CODES.includes(list[0].format)
-            ? `這是商品條碼（EAN/UPC），通常不是${L}，確定要使用嗎？`
-            : `這看起來不像產品${L}，確定要使用嗎？`));
+            ? t('scan.productCode', { label })
+            : t('scan.unsure', { label })));
         const buttons = list.map((c) => {
           const b = document.createElement('button');
           b.type = 'button';
@@ -1416,7 +1722,7 @@
           const v = document.createElement('span');
           v.textContent = c.value;
           const f = document.createElement('small');
-          f.textContent = FORMAT_LABEL[c.format] || c.format;
+          f.textContent = formatLabel(c.format);
           b.append(v, f);
           b.addEventListener('click', () => accept(c.value));
           return b;
@@ -1425,11 +1731,11 @@
         again.type = 'button';
         again.className = 'choice-btn';
         again.style.cssText = 'justify-content:center;font-family:inherit';
-        again.textContent = '都不是，繼續掃描';
+        again.textContent = t('scan.noneOfThese');
         again.addEventListener('click', () => {
           list.forEach((c) => ignored.add(c.value));
           choicesEl.hidden = true;
-          setHint(stream ? '將條碼對準框內並保持穩定' : '請再拍一次，或手動輸入。');
+          setHint(stream ? t('scan.aim') : t('scan.retakePhoto'));
           start();
         });
         choicesEl.replaceChildren(...buttons, again);
@@ -1446,7 +1752,7 @@
         input.classList.add('scanned');
         const note = document.querySelector(`[data-note-for="${input.id}"]`);
         if (note) {
-          note.textContent = '✓ 已從條碼填入，請核對是否與產品標籤一致';
+          note.textContent = t('scan.filled');
           note.hidden = false;
         }
         input.focus({ preventScroll: true });
@@ -1467,17 +1773,17 @@
         running = false;
         clearTimeout(timer);
         choicesEl.hidden = true;
-        setHint('辨識中…');
+        setHint(t('scan.recognizing'));
         let img = null;
         try {
           const det = await getDetector();
           img = await decodeImage(file);
           if (!handle(await det.detect(img.source), false)) {
-            setHint('照片中找不到條碼。請靠近一點、確認對焦清楚後再拍一次。', true);
+            setHint(t('scan.notFound'), true);
             start();
           }
         } catch (_) {
-          setHint('無法辨識這張照片，請再試一次或手動輸入。', true);
+          setHint(t('scan.photoFail'), true);
           start();
         } finally {
           if (img) img.release();
