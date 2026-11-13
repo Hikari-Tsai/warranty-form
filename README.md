@@ -18,7 +18,7 @@ Google Apps Script Web App (Code.gs → doPost)
 |---|---|
 | `index.html` | 前端表單（單一檔案，含樣式與程式；中文 / English 切換；自動支援深色模式） |
 | `assets/cyuncai-logo.png` | 左上角群彩文創 Logo（點擊回首頁） |
-| `assets/cyuncai-logo-lg.png` | Banner 用的群彩文創 Logo（大圖） |
+| `assets/banner.webp` | 頁首 Banner 原圖（只縮放，不修改） |
 | `Code.gs` | Apps Script 後端 |
 | `CNAME` | GitHub Pages 自訂網域（`warranty.cyuncai.com`），請勿刪除 |
 

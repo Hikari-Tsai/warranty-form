@@ -102,27 +102,12 @@
     .lang-btn svg { width: 15px; height: 15px; }
 
     /* ---------- Brand banner ---------- */
+    /* Banner：原圖直接顯示，只縮放尺寸；底色固定白色，淺色/深色模式都一樣 */
     .brand-banner {
-      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
-      display: flex; align-items: center; justify-content: center; padding: 44px 24px; margin-bottom: 40px;
-      position: relative; overflow: hidden;
+      background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+      overflow: hidden; margin-bottom: 40px;
     }
-    .brand-banner::after {
-      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--brand);
-    }
-    /* 群彩文創 ／ Ensemble Music Center 並列標誌 */
-    .lockup { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 5vw, 64px); }
-    .lockup .cy { width: clamp(68px, 12vw, 128px); height: auto; flex: none; display: block; }
-    .lockup .slash {
-      width: 1px; height: clamp(58px, 10vw, 104px); background: var(--ink-3); transform: rotate(36deg); flex: none;
-    }
-    .logo { display: flex; align-items: center; gap: clamp(10px, 1.8vw, 18px); color: var(--brand); text-decoration: none; }
-    .logo svg { width: clamp(26px, 4.6vw, 48px); height: auto; flex: none; }
-    .logo-text {
-      font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 700; text-transform: uppercase;
-      font-size: clamp(24px, 4.6vw, 48px); line-height: .9; letter-spacing: .01em; white-space: nowrap;
-    }
-    .logo-text span { display: block; }
+    .brand-banner img { display: block; width: 100%; height: auto; }
     .wordmark .x { color: var(--ink-3); font-weight: 400; margin: 0 2px; }
     .progress-label { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
     .progress-track { height: 3px; background: transparent; }
@@ -465,14 +450,6 @@
   </style>
 </head>
 <body>
-  <!-- Ensemble Music Center 標誌（E 字圖形），依提供的 Logo 重繪 -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="emc-mark" viewBox="0 0 40 52">
-      <path fill="currentColor" d="M0 7 40 0v11L0 19z"/>
-      <path fill="currentColor" d="M0 26.5 32 21v11L0 38.5z"/>
-      <path fill="currentColor" d="M0 46 40 39v11L0 58z" transform="translate(0 -6)"/>
-    </symbol>
-  </svg>
 
   <header class="topbar">
     <div class="topbar-inner">
@@ -492,15 +469,8 @@
   </header>
 
   <main class="page">
-    <div class="brand-banner" role="img" aria-label="群彩文創 × Ensemble Music Center 揚聲堡音樂" data-i18n-attr="aria-label=banner.aria">
-      <div class="lockup" aria-hidden="true">
-        <img class="cy" src="assets/cyuncai-logo-lg.png" alt="" width="128" height="128">
-        <span class="slash"></span>
-        <div class="logo">
-          <svg viewBox="0 0 40 52"><use href="#emc-mark"/></svg>
-          <div class="logo-text"><span>Ensemble</span><span>Music Center</span></div>
-        </div>
-      </div>
+    <div class="brand-banner">
+      <img src="assets/banner.webp" width="2000" height="369" alt="群彩文創 / Ensemble Music Center 揚聲堡音樂" data-i18n-attr="alt=banner.aria">
     </div>
 
     <section class="hero">
@@ -846,7 +816,7 @@
         'lang.switch': '切換為中文',
         'lang.btn': '中文',
         'home.aria': 'Back to home',
-        'banner.aria': 'Cyuncai × Ensemble Music Center',
+        'banner.aria': 'Cyuncai / Ensemble Music Center',
         'brand.cyuncai': 'Cyuncai',
         'brand.emc': 'Ensemble Music Center',
         'hero.title': 'Product Warranty Registration',
