@@ -105,11 +105,8 @@
     .lang-switch button:focus-visible { outline: none; box-shadow: var(--ring); }
 
     /* ---------- Brand banner ---------- */
-    /* Banner：原圖直接顯示，只縮放尺寸；底色固定白色，淺色/深色模式都一樣 */
-    .brand-banner {
-      background: #fff; border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
-      overflow: hidden; margin-bottom: 40px;
-    }
+    /* Banner：原圖（透明底）直接放上，不加底色或外框，只縮放尺寸 */
+    .brand-banner { margin-bottom: 40px; }
     .brand-banner img { display: block; width: 100%; height: auto; }
     .wordmark .x { color: var(--ink-3); font-weight: 400; margin: 0 2px; }
     .progress-label { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -263,6 +260,23 @@
       border-radius: var(--radius-sm); padding: 16px 18px; max-height: 168px; overflow: auto; margin-bottom: 16px;
     }
     .privacy p { margin: 0; }
+
+    /* 保固條款 */
+    .terms {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+      padding: 24px 28px; margin-bottom: 40px;
+    }
+    .terms h2 { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 900; margin: 0 0 14px; }
+    .terms h2 svg { width: 20px; height: 20px; color: var(--accent); flex: none; }
+    .terms-body {
+      font-size: 14px; line-height: 1.75; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line);
+      border-radius: var(--radius-sm); padding: 16px 18px 16px 8px; max-height: 260px; overflow: auto;
+    }
+    .terms-body ol { margin: 0; padding-left: 28px; }
+    .terms-body > ol > li + li { margin-top: 10px; }
+    .terms-body ol ol { list-style: lower-alpha; padding-left: 22px; margin-top: 4px; }
+    .terms-body b { color: var(--ink); }
+    @media (max-width: 640px) { .terms { padding: 20px 16px; border-radius: 12px; } }
     .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 15px; }
     .check input {
       appearance: none; -webkit-appearance: none; margin: 2px 0 0; width: 20px; height: 20px; flex: none;
@@ -485,6 +499,34 @@
         <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span data-i18n="chip.time">約 2 分鐘</span></span>
         <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span data-i18n="chip.receipt">建議準備發票或收據</span></span>
         <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg><span data-i18n="chip.secure">資料加密傳輸</span></span>
+      </div>
+    </section>
+
+    <section class="terms" aria-labelledby="terms-title">
+      <h2 id="terms-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-i18n="terms.title">保固條款與注意事項</span></h2>
+      <div class="terms-body" tabindex="0" data-i18n="terms.body" data-i18n-attr="aria-label=terms.title" aria-label="保固條款與注意事項">
+              <ol>
+                <li>自購買日起享有本公司保固與技術服務<b>一年</b>，但下列狀況不在保固範圍內：
+                  <ol>
+                    <li>無法證明為群彩文創有限公司／揚聲堡音樂代理產品之公司貨</li>
+                    <li>電源線與其連接之變壓器</li>
+                    <li>產品上之耗材（如電池、指示燈、外觀之損耗與消耗性產品之損壞）</li>
+                    <li>產品上之控制轉鈕、琴鍵、按鍵、可變電阻、插孔、電池蓋、開關、配件等脫落或遺失</li>
+                    <li>產品被任何非本公司或本公司授權簽約之技術人員（包括消費者本人）所執行之修理、調整或改造，或已拆開過產品本體者，皆視同自行拆機，保固自動失效</li>
+                  </ol>
+                </li>
+                <li>若有下列情況發生，本公司須依實際情況收取零件與人工費用：
+                  <ol>
+                    <li>因天災、人禍而損壞者（如泡水、摔機等）</li>
+                    <li>由於使用不當或不慎，導致產品故障或毀壞者</li>
+                    <li>未依規定使用電源電壓所導致之損壞</li>
+                    <li>保固期內之運費與維修人員出勤費本公司得酌收之</li>
+                  </ol>
+                </li>
+                <li>超出保固期限與條件，本公司將收取維修費用。</li>
+                <li>產品未登入註冊或經查明後發現非本公司進口銷售之貨品，本公司保有不提供維修服務的權利。</li>
+                <li>本公司保有保固維修相關之最終判定權。</li>
+              </ol>
       </div>
     </section>
 
@@ -858,6 +900,29 @@
         'err.default': 'This field is not valid',
         'privacy.aria': 'Privacy notice',
         'privacy.body': 'Cyuncai / Ensemble Music Center collects your name, phone number, email, product serial number and purchase details to provide product registration, warranty management, repair and after-sales service. This data is processed and used electronically or by other lawful means, in Taiwan and in other regions where service requires, by us and by the manufacturers, authorized dealers, repair centers and system providers we work with, for as long as warranty and after-sales service require. You may ask us to look up, view, copy, correct, stop using or delete your personal data as provided by law. If you do not provide the required data, we may be unable to register your product or confirm warranty eligibility; this does not affect your statutory rights. Questions: <a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a>.',
+'terms.title': 'Warranty terms and notes',
+        'terms.body': `<ol>
+          <li>Products come with a <b>one-year</b> warranty and technical service from the date of purchase. The following are not covered:
+            <ol>
+              <li>Products that cannot be shown to be official units distributed by Cyuncai Co., Ltd. / Ensemble Music Center</li>
+              <li>Power cords and their connected adapters</li>
+              <li>Consumable parts (such as batteries, indicator lights, cosmetic wear, and damage to consumable items)</li>
+              <li>Knobs, keys, buttons, potentiometers, jacks, battery covers, switches, accessories and similar parts that have come off or been lost</li>
+              <li>Repairs, adjustments or modifications by anyone other than our company or its contracted, authorized technicians (including the customer), or any product whose body has been opened. These count as self-disassembly and void the warranty.</li>
+            </ol>
+          </li>
+          <li>In the following cases, parts and labor will be charged as appropriate:
+            <ol>
+              <li>Damage from natural disasters or accidents (such as water damage or drops)</li>
+              <li>Malfunction or damage caused by improper or careless use</li>
+              <li>Damage caused by using a power supply voltage other than specified</li>
+              <li>Shipping and technician call-out fees during the warranty period may be charged</li>
+            </ol>
+          </li>
+          <li>Repairs outside the warranty period or terms will be charged.</li>
+          <li>We reserve the right to decline repair service for products that are not registered, or that are found not to have been imported and sold by our company.</li>
+          <li>Our company has the final say on all warranty and repair decisions.</li>
+        </ol>`,
         'consent.label': 'I have read and agree to the privacy notice above',
         'mkt.title': 'Get new product and offer updates',
         'mkt.desc': 'Occasional news on new products, brand events and exclusive discounts',
