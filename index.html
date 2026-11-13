@@ -161,8 +161,11 @@
     }
     .help b { display: block; color: var(--ink); font-size: 14px; margin-bottom: 4px; }
     .help a { word-break: break-all; }
-    .help-line { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-    .help-line svg { width: 15px; height: 15px; flex: none; color: var(--ink-3); }
+    .help-item { margin-top: 12px; }
+    .help-item dt { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-3); margin-bottom: 2px; }
+    .help-item dt svg { width: 14px; height: 14px; flex: none; }
+    .help-item dd { margin: 0; }
+    .help dl { margin: 0; }
 
     /* ---------- Sections ---------- */
     .section {
@@ -443,6 +446,8 @@
 
     .footer { max-width: 1120px; margin: 0 auto; padding: 0 24px 40px; font-size: 13px; color: var(--ink-3); }
     .footer-help { margin: 0 0 8px; color: var(--ink-2); word-break: break-word; }
+    .footer-help .lbl::after { content: "："; }
+    html[lang="en"] .footer-help .lbl::after { content: ": "; }
     @media (min-width: 960px) { .footer-help { display: none; } }  /* 桌機版左側已有聯絡方式 */
 
     @media (max-width: 640px) {
@@ -471,7 +476,7 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="wordmark" href="./" data-i18n-attr="aria-label=home.aria" aria-label="回到首頁">
+      <a class="wordmark" href="https://www.ensemblemusic.com.tw/" data-i18n-attr="aria-label=home.aria" aria-label="前往揚聲堡音樂官網">
         <img class="mark" src="assets/cyuncai-logo.png" alt="" width="30" height="30">
         <span><span class="full"><span data-i18n="brand.cyuncai">群彩文創</span><span class="x">×</span></span><span data-i18n="brand.emc">揚聲堡音樂</span></span>
       </a>
@@ -540,14 +545,11 @@
         </ol>
         <div class="help">
           <b data-i18n="help.title">需要協助？</b>
-          <div class="help-line">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
-            <a href="tel:+886225433319">02-2543-3319</a>
-          </div>
-          <div class="help-line">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-            <a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a>
-          </div>
+          <dl>
+            <div class="help-item"><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span data-i18n="help.phone">客服電話</span></dt><dd><a href="tel:+886225433319">02-2543-3319</a></dd></div>
+            <div class="help-item"><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span data-i18n="help.email">客服信箱</span></dt><dd><a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a></dd></div>
+            <div class="help-item"><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span data-i18n="help.web">官方網站</span></dt><dd><a href="https://www.ensemblemusic.com.tw/" target="_blank" rel="noopener">www.ensemblemusic.com.tw</a></dd></div>
+          </dl>
         </div>
       </aside>
 
@@ -760,7 +762,10 @@
   </dialog>
 
   <footer class="footer">
-    <p class="footer-help"><span data-i18n="help.title">需要協助？</span> <a href="tel:+886225433319">02-2543-3319</a> · <a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a></p>
+    <p class="footer-help"><b data-i18n="help.title">需要協助？</b><br>
+      <span class="lbl" data-i18n="help.phone">客服電話</span><a href="tel:+886225433319">02-2543-3319</a><br>
+      <span class="lbl" data-i18n="help.email">客服信箱</span><a href="mailto:ensemblemusiccenter@cyuncai.com">ensemblemusiccenter@cyuncai.com</a><br>
+      <span class="lbl" data-i18n="help.web">官方網站</span><a href="https://www.ensemblemusic.com.tw/" target="_blank" rel="noopener">www.ensemblemusic.com.tw</a></p>
     <span data-i18n="footer">Copyright © <span class="year">2026</span> 群彩文創有限公司 / 揚聲堡音樂 版權所有</span>
   </footer>
 
@@ -857,7 +862,7 @@
       en: {
         'doc.title': 'Product Warranty Registration | Cyun Cai Cultural and Creative × Ensemble Music',
         'doc.desc': 'Online warranty registration for products distributed by Cyun Cai Cultural and Creative / Ensemble Music',
-        'home.aria': 'Back to home',
+        'home.aria': 'Go to the Ensemble Music website',
         'banner.aria': 'Cyun Cai Cultural and Creative / Ensemble Music',
         'brand.cyuncai': 'Cyun Cai Cultural and Creative',
         'brand.emc': 'Ensemble Music',
@@ -869,6 +874,7 @@
         'steps.aria': 'Progress',
         'step.contact': 'Contact', 'step.product': 'Product', 'step.purchase': 'Purchase', 'step.confirm': 'Review & submit',
         'help.title': 'Need help?',
+        'help.phone': 'Phone', 'help.email': 'Email', 'help.web': 'Website',
         'sec.contact.title': 'Contact information',
         'sec.contact.desc': 'We use these details to reach you about warranty and repair service.',
         'sec.product.title': 'Product information',
